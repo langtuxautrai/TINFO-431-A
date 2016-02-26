@@ -1,0 +1,77 @@
+﻿@model IEnumerable<MusicProject.Models.Song>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>List Of Songs</h2>
+<div>
+    @using (Html.BeginForm())
+    {
+        <p>
+            Search: @Html.TextBox("SearchString")
+            Filter: @Html.DropDownList("Genres","All")
+            <input type="submit" value="Search" />
+        </p>
+    }
+</div>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @*
+            @Html.DisplayNameFor(model => model.Title) *@
+            @Html.ActionLink("Song Title", "Index", new { name = ViewBag.TitleSorting })
+        </th>
+        <th>@*
+            @Html.DisplayNameFor(model => model.Genres) *@
+            @Html.ActionLink("Genres", "Index", new { name = ViewBag.GenreSorting })
+        </th>
+        <th>
+            In Album
+        </th>
+        <th>
+            @Html.ActionLink("Sing by", "Index", new { name = ViewBag.ArtistSorting })
+        </th>
+        <th>
+            @Html.ActionLink("Compose by", "Index", new { name = ViewBag.ComposerSorting })
+        </th>              
+        <th>
+            @Html.DisplayNameFor(model => model.Release)
+        </th>
+        
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Genres)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Albums.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Artists.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Composers.FullName)
+        </td>       
+        <td>
+            @Html.DisplayFor(modelItem => item.Release)
+        </td>        
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.SongID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.SongID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.SongID })
+        </td>
+    </tr>
+}
+
+</table>

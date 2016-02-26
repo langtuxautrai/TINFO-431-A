@@ -1,0 +1,59 @@
+﻿@model MusicProject.Models.Composer
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Composer "@Html.DisplayFor(model => model.FullName)"</h2>
+
+<div>    
+    <hr />
+    <dl class="dl-horizontal">
+        
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Lname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Lname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Genres)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Genres)
+        </dd>
+
+        <dt>
+            Works for
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Companies.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rewards)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rewards)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ComposerID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

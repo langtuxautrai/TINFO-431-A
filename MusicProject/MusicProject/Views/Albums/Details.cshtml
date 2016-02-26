@@ -1,0 +1,79 @@
+﻿@model MusicProject.Models.Album
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>"@Html.DisplayFor(model => model.Title)" Album</h2>
+
+<div>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Artists.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Artists.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Genres)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Genres)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Producers)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Producers)
+        </dd>
+
+        <dt>
+            Labels by
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Companies.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Release)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Release)
+        </dd>
+    </dl>
+</div>
+
+<h4>The List of Songs</h4>
+
+<div>    
+    <ol>
+        @foreach (var song in Model.Songs)
+            {
+            <li>
+                @song.Title
+            </li>
+        }
+    </ol>
+   
+    
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.AlbumID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

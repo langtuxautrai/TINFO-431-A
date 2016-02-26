@@ -1,0 +1,59 @@
+﻿@model IEnumerable<MusicProject.Models.Composer>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>List Of Composers</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        
+        <th>
+            @Html.DisplayNameFor(model => model.Fname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Genres)
+        </th>
+        <th>
+            Works for
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rewards)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.Fname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Lname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Genres)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Companies.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rewards)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ComposerID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ComposerID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ComposerID })
+        </td>
+    </tr>
+}
+
+</table>
