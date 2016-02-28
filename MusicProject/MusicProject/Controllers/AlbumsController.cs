@@ -16,11 +16,59 @@ namespace MusicProject.Controllers
         private MusicContext db = new MusicContext();
 
         // GET: Albums
-        public ActionResult Index()
+        public ActionResult Index(String name, string searchString)
         {
-            //Get the album include the each albums referenced artist and company
-            var albums = db.Albums.Include(a => a.Artists).Include(a => a.Companies);
-            return View(albums.ToList());
+            var album = from s in db.Albums select s;
+
+            //Searching the song by song title
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                album = album.Where(s => s.Title.Contains(searchString));
+            }
+
+            //Set up sorting cases 
+            ViewBag.TitleSorting = String.IsNullOrEmpty(name) ? "Title_DESC" : "";            
+            ViewBag.ArtistSorting = name == "Artist" ? "Artist_DESC" : "Artist";
+            ViewBag.ProducerSorting = name == "Producer" ? "Producer_DESC" : "Producer";
+            ViewBag.CompanySorting = name == "Company" ? "Company_DESC" : "Company";
+            ViewBag.DateSorting = name == "Date" ? "Date_DESC" : "Date";
+
+            //Sorting by title, genre, or artist first name
+            switch (name)
+            {
+                case "Title_DESC":
+                    album = album.OrderByDescending(s => s.Title);
+                    break;                
+                case "Artist":
+                    album = album.OrderBy(s => s.Artists.Fname);
+                    break;
+                case "Artist_DESC":
+                    album = album.OrderByDescending(s => s.Artists.Fname);
+                    break;
+                case "Producer":
+                    album = album.OrderBy(s => s.Producers);
+                    break;
+                case "Producer_DESC":
+                    album = album.OrderByDescending(s => s.Producers);
+                    break;
+                case "Company":
+                    album = album.OrderBy(s => s.Companies.Name);
+                    break;
+                case "Company_DESC":
+                    album = album.OrderByDescending(s => s.Companies.Name);
+                    break;
+                case "Date":
+                    album = album.OrderBy(s => s.Release);
+                    break;
+                case "Date_DESC":
+                    album = album.OrderByDescending(s => s.Release);
+                    break;
+                default:
+                    album = album.OrderBy(s => s.Title);
+                    break;
+            }
+
+            return View(album.ToList());
         }
 
         // GET: Albums/Details/5
@@ -128,8 +176,17 @@ namespace MusicProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            //set all albumID of songs in the deleted album to NULL
+            var songs = from s in db.Songs select s;
+            songs = songs.Where(s => s.AlbumID == id);
+            foreach(var s in songs)
+            {
+                s.AlbumID = null;
+            }
+
+            //remove the album out of database
             Album album = db.Albums.Find(id);
-            db.Albums.Remove(album);
+            db.Albums.Remove(album); 
             db.SaveChanges();
             return RedirectToAction("Index");
         }

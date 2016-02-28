@@ -14,32 +14,34 @@
         </p>
     }
 </div>
-<p style="color:blue">
-   
+
+<p>   
+    @*Add new song button*@
     <button type="button">@Html.ActionLink("Add New Song", "Create")</button>
 </p>
+
 <table class="table">
     <tr bgcolor = "yellow">
         <th>
             @*
             @Html.DisplayNameFor(model => model.Title) *@
-            @Html.ActionLink("Song Title", "Index", new { name = ViewBag.TitleSorting })
+            @Html.ActionLink("SONG TITLE", "Index", new { name = ViewBag.TitleSorting })
         </th>
         <th>@*
             @Html.DisplayNameFor(model => model.Genres) *@
-            @Html.ActionLink("Genres", "Index", new { name = ViewBag.GenreSorting })
+            @Html.ActionLink("GENRES", "Index", new { name = ViewBag.GenreSorting })
         </th>
         <th>
-            @Html.ActionLink("In Album", "Index", new { name = ViewBag.AlbumSorting })
+            @Html.ActionLink("IN ALBUMS", "Index", new { name = ViewBag.AlbumSorting })
         </th>
         <th>
-            @Html.ActionLink("Sing by", "Index", new { name = ViewBag.ArtistSorting })
+            @Html.ActionLink("SING BY", "Index", new { name = ViewBag.ArtistSorting })
         </th>
         <th>
-            @Html.ActionLink("Compose by", "Index", new { name = ViewBag.ComposerSorting })
+            @Html.ActionLink("COMPOSE BY", "Index", new { name = ViewBag.ComposeSorting })
         </th>
         <th>
-            @Html.ActionLink("Release in", "Index", new { name = ViewBag.DateSorting })
+            @Html.ActionLink("RELEASE IN", "Index", new { name = ViewBag.DateSorting })
         </th>
         
         <th></th>

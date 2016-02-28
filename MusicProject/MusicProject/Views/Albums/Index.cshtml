@@ -5,29 +5,38 @@
 }
 
 <h2>List Of Album</h2>
+<div>
+    @using (Html.BeginForm())
+    {
+        <p>
+            Search: @Html.TextBox("SearchString")
+            <input type="submit" value="Search" />
+        </p>
+    }
+</div>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <button type="button">@Html.ActionLink("Add New Album", "Create")</button>
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.ActionLink("ALBUM TITLE", "Index", new { name = ViewBag.TitleSorting })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Artists)
+            @Html.ActionLink("ARTIST", "Index", new { name = ViewBag.ArtistSorting })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Genres)
+            GENRES
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Producers)
+            @Html.ActionLink("PRODUCER", "Index", new { name = ViewBag.ProducerSorting })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CompanyID)
+            @Html.ActionLink("LABELS BY", "Index", new { name = ViewBag.CompanySorting })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Release)
+            @Html.ActionLink("RELEASE", "Index", new { name = ViewBag.DateSorting })
         </th>
         <th></th>
     </tr>
@@ -36,10 +45,10 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
+               @Html.ActionLink(item.Title, "Details", new { id = item.AlbumID })
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Artists.FullName)
+               <a href="Artists/Details/@item.ArtistID">@Html.DisplayFor(modelItem => item.Artists.FullName)</a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Genres)
@@ -48,7 +57,7 @@
                 @Html.DisplayFor(modelItem => item.Producers)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Companies.Name)
+                <a href="Artists/Details/@item.CompanyID">@Html.DisplayFor(modelItem => item.Companies.Name)</a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Release)
