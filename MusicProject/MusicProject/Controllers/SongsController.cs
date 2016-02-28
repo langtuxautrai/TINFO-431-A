@@ -22,6 +22,7 @@ namespace MusicProject.Controllers
             context = new ApplicationDbContext();
         }
 
+        //check if the user is adminitrator or not
         public Boolean isAdminUser()
         {
             if (User.Identity.IsAuthenticated)
@@ -59,41 +60,26 @@ namespace MusicProject.Controllers
                     ViewBag.displayMenu = "Yes";
                 }
             }
-
-            //var songs = db.Songs.Include(s => s.Albums).Include(s => s.Artists).Include(s => s.Composers);
-            //return View(songs.ToList());
-
-            //Sesrching with Genre filter
-            var GenreLst = new List<string>();
-
-            var GenreQry = from d in db.Songs
-                           orderby d.Genres
-                           select d.Genres;
-
-            GenreLst.AddRange(GenreQry.Distinct());
-            ViewBag.Genres = new SelectList(GenreLst);
-
-            //Set up sorting cases
-            ViewBag.TitleSorting = String.IsNullOrEmpty(name) ? "Title_DESC" : "";
-            ViewBag.GenreSorting = name == "Genres" ? "Genres_DESC" : "Genres";
-            ViewBag.ArtistSorting = name == "ArtistID" ? "ArtistID_DESC" : "ArtistID";
-            ViewBag.ComposeSorting = name == "ComposerID" ? "ComposerID_DESC" : "ComposerID";
-
-            var songs = from s in db.Songs
-                           select s;
-
-            //Searching
+            
+            var songs = from s in db.Songs select s;
+            
+            //Searching the song by song title
             if (!String.IsNullOrEmpty(searchString))
             {
-                songs = songs.Where(s => s.Title.Contains(searchString)
-                                       || s.Artists.Fname.Contains(searchString)
-                                       || s.Composers.Fname.Contains(searchString)
-                                       || s.Genres.Contains(searchString));
-            }
+                songs = songs.Where(s => s.Title.Contains(searchString));                
+            }           
+
+            //Set up sorting cases 
+            ViewBag.TitleSorting = String.IsNullOrEmpty(name) ? "Title_DESC" : "";
+            ViewBag.GenreSorting = name == "Genres" ? "Genres_DESC" : "Genres";
+            ViewBag.ArtistSorting = name == "Artist" ? "Artist_DESC" : "Artist";
+            ViewBag.ComposeSorting = name == "Composer" ? "Composer_DESC" : "Composer";
+            ViewBag.AlbumSorting = name == "Album" ? "Album_DESC" : "Album";
+            ViewBag.DateSorting = name == "Date" ? "Date_DESC" : "Date";
 
             //Sorting by title, genre, or artist first name
-            switch (name) {
-                
+            switch (name)
+            {
                 case "Title_DESC":
                     songs = songs.OrderByDescending(s => s.Title);
                     break;
@@ -103,22 +89,35 @@ namespace MusicProject.Controllers
                 case "Genres_DESC":
                     songs = songs.OrderByDescending(s => s.Genres);
                     break;
-                case "ArtistID":
+                case "Artist":
                     songs = songs.OrderBy(s => s.Artists.Fname);
                     break;
-                case "ArtistID_DESC":
+                case "Artist_DESC":
                     songs = songs.OrderByDescending(s => s.Artists.Fname);
                     break;
-                case "ComposerID":
+                case "Composer":
                     songs = songs.OrderBy(s => s.Composers.Fname);
                     break;
-                case "ComposerID_DESC":
+                case "Composer_DESC":
                     songs = songs.OrderByDescending(s => s.Composers.Fname);
+                    break;
+                case "Album":
+                    songs = songs.OrderBy(s => s.Albums.Title);
+                    break;
+                case "Album_DESC":
+                    songs = songs.OrderByDescending(s => s.Albums.Title);
+                    break;
+                case "Date":
+                    songs = songs.OrderBy(s => s.Release);
+                    break;
+                case "Date_DESC":
+                    songs = songs.OrderByDescending(s => s.Release);
                     break;
                 default:
                     songs = songs.OrderBy(s => s.Title);
                     break;
             }
+
             return View(songs.ToList());
         }
 

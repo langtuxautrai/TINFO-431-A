@@ -9,17 +9,17 @@
     @using (Html.BeginForm())
     {
         <p>
-            Search: @Html.TextBox("SearchString")
-            Filter: @Html.DropDownList("Genres","All")
+            Search: @Html.TextBox("SearchString")            
             <input type="submit" value="Search" />
         </p>
     }
 </div>
-<p>
-    @Html.ActionLink("Create New", "Create")
+<p style="color:blue">
+   
+    <button type="button">@Html.ActionLink("Add New Song", "Create")</button>
 </p>
 <table class="table">
-    <tr>
+    <tr bgcolor = "yellow">
         <th>
             @*
             @Html.DisplayNameFor(model => model.Title) *@
@@ -30,56 +30,61 @@
             @Html.ActionLink("Genres", "Index", new { name = ViewBag.GenreSorting })
         </th>
         <th>
-            In Album
+            @Html.ActionLink("In Album", "Index", new { name = ViewBag.AlbumSorting })
         </th>
         <th>
             @Html.ActionLink("Sing by", "Index", new { name = ViewBag.ArtistSorting })
         </th>
         <th>
             @Html.ActionLink("Compose by", "Index", new { name = ViewBag.ComposerSorting })
-        </th>              
+        </th>
         <th>
-            @Html.DisplayNameFor(model => model.Release)
+            @Html.ActionLink("Release in", "Index", new { name = ViewBag.DateSorting })
         </th>
         
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Title)
+            @*@Html.DisplayFor(modelItem => item.Title)*@
+            @Html.ActionLink(item.Title, "Details", new { id = item.SongID })
         </td>
 
         <td>
             @Html.DisplayFor(modelItem => item.Genres)
         </td>
+
         <td>
-            @Html.DisplayFor(modelItem => item.Albums.Title)
+            @*@Html.DisplayFor(modelItem => item.Albums.Title)*@
+            <a href="Albums/Details/@item.AlbumID">@Html.DisplayFor(modelItem => item.Albums.Title)</a>
         </td>
+
         <td>
-            @Html.DisplayFor(modelItem => item.Artists.FullName)
+            <a href="Artists/Details/@item.ArtistID">@Html.DisplayFor(modelItem => item.Artists.FullName)</a>
         </td>
+
         <td>
-            @Html.DisplayFor(modelItem => item.Composers.FullName)
-        </td>       
+            <a href="Composers/Details/@item.ComposerID">@Html.DisplayFor(modelItem => item.Composers.FullName)</a>
+        </td>
+
         <td>
             @Html.DisplayFor(modelItem => item.Release)
         </td>
-        
+
         @if (ViewBag.displayMenu == "Yes")
         {
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.SongID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.SongID }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.SongID })
             </td>
         }
         else
         {
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.SongID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.SongID })
+                @Html.ActionLink("Edit", "Edit", new { id = item.SongID })
             </td>
         }
 
