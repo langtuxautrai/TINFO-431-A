@@ -7,16 +7,59 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MusicProject.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace MusicProject.Controllers
 {
     public class SongsController : Controller
     {
         private MusicContext db = new MusicContext();
+        ApplicationDbContext context;
+
+        public SongsController()
+        {
+            context = new ApplicationDbContext();
+        }
+
+        public Boolean isAdminUser()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = User.Identity;
+                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                var s = UserManager.GetRoles(user.GetUserId());
+                if (s[0].ToString() == "Admin")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
 
         // GET: Songs
         public ActionResult Index(String name, string searchString)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = User.Identity;
+                ViewBag.Name = user.Name;
+                //	ApplicationDbContext context = new ApplicationDbContext();
+                //	var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+
+                //var s=	UserManager.GetRoles(user.GetUserId());
+                ViewBag.displayMenu = "No";
+
+                if (isAdminUser())
+                {
+                    ViewBag.displayMenu = "Yes";
+                }
+            }
+
             //var songs = db.Songs.Include(s => s.Albums).Include(s => s.Artists).Include(s => s.Composers);
             //return View(songs.ToList());
 
@@ -164,6 +207,18 @@ namespace MusicProject.Controllers
         // GET: Songs/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                if (!isAdminUser())
+                {
+                    return Content("Invalid");
+                }
+
+            }
+            else
+            {
+                return Content("Invalid");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

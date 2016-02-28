@@ -65,12 +65,25 @@
         </td>       
         <td>
             @Html.DisplayFor(modelItem => item.Release)
-        </td>        
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.SongID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.SongID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.SongID })
         </td>
+        
+        @if (ViewBag.displayMenu == "Yes")
+        {
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.SongID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.SongID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.SongID })
+            </td>
+        }
+        else
+        {
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.SongID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.SongID })
+            </td>
+        }
+
+
     </tr>
 }
 
