@@ -7,16 +7,57 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MusicProject.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace MusicProject.Controllers
 {
     public class CompaniesController : Controller
     {
         private MusicContext db = new MusicContext();
+        ApplicationDbContext context;
+
+        public CompaniesController()
+        {
+            context = new ApplicationDbContext();
+        }
+
+        //check if the user is adminitrator or not
+        public Boolean isAdminUser()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = User.Identity;
+                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                var s = UserManager.GetRoles(user.GetUserId());
+                if (s[0].ToString() == "Admin")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
 
         // GET: Companies
         public ActionResult Index()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = User.Identity;
+                ViewBag.Name = user.Name;
+
+                ViewBag.displayMenu = "No";
+
+                if (isAdminUser())
+                {
+                    ViewBag.displayMenu = "Yes";
+                }
+            }
+
             return View(db.Companies.ToList());
         }
 

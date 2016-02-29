@@ -16,7 +16,7 @@
 </div>
 
 <p>
-    <button type="button">@Html.ActionLink("Add New Album", "Create")</button>
+    @Html.ActionLink("Add New Album", "Create", "Albums", null, new { @class = "btn btn-primary btn-large" })
 </p>
 <table class="table">
     <tr>
@@ -62,11 +62,21 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Release)
             </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.AlbumID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.AlbumID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.AlbumID })
-            </td>
+
+           @if (ViewBag.displayMenu == "Yes")
+           {
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.AlbumID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.AlbumID })
+                </td>
+           }
+           else
+           {
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.AlbumID })
+                </td>
+           }
+            
         </tr>
     }
 

@@ -8,16 +8,56 @@ using System.Web;
 using System.Web.Mvc;
 using MusicProject.Models;
 using MusicProject.ViewModels;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace MusicProject.Controllers
 {
     public class AlbumsController : Controller
     {
         private MusicContext db = new MusicContext();
+        ApplicationDbContext context;
+
+        public AlbumsController()
+        {
+            context = new ApplicationDbContext();
+        }
+        //check if the login user is an admin
+        public Boolean isAdminUser()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = User.Identity;
+                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                var s = UserManager.GetRoles(user.GetUserId());
+                if (s[0].ToString() == "Admin")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
 
         // GET: Albums
         public ActionResult Index(String name, string searchString)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = User.Identity;
+                ViewBag.Name = user.Name;
+
+                ViewBag.displayMenu = "No";
+
+                if (isAdminUser())
+                {
+                    ViewBag.displayMenu = "Yes";
+                }
+            }
+
             var album = from s in db.Albums select s;
 
             //Searching the song by song title

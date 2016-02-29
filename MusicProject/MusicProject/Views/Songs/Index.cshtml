@@ -17,7 +17,7 @@
 
 <p>   
     @*Add new song button*@
-    <button type="button">@Html.ActionLink("Add New Song", "Create")</button>
+    @Html.ActionLink("Add New Song", "Create", "Songs", null, new { @class = "btn btn-primary btn-large" })
 </p>
 
 <table class="table">

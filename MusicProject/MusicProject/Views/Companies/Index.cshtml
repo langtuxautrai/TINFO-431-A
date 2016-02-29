@@ -7,7 +7,7 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", "Companies", null, new { @class = "btn btn-primary btn-large" })
 </p>
 <table class="table">
     <tr>
@@ -46,11 +46,21 @@
         <td>
             @Html.DisplayFor(modelItem => item.Found)
         </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CompanyID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CompanyID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CompanyID })
-        </td>
+        @if (ViewBag.displayMenu == "Yes")
+        {
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.CompanyID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.CompanyID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.CompanyID })
+            </td>
+        }
+        else
+        {
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.CompanyID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.CompanyID })
+            </td>
+        }
     </tr>
 }
 

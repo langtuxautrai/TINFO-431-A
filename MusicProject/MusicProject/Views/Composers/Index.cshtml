@@ -7,7 +7,7 @@
 <h2>List Of Composers</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", "Composer", null, new { @class = "btn btn-primary btn-large" })
 </p>
 <table class="table">
     <tr>
@@ -48,11 +48,21 @@
         <td>
             @Html.DisplayFor(modelItem => item.Rewards)
         </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ComposerID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ComposerID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ComposerID })
-        </td>
+        @if (ViewBag.displayMenu == "Yes")
+        {
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ComposerID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ComposerID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ComposerID })
+            </td>
+        }
+        else
+        {
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ComposerID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ComposerID }) 
+            </td>
+        }
     </tr>
 }
 

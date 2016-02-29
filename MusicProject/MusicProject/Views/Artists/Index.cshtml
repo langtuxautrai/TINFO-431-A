@@ -7,7 +7,7 @@
 <h2>List Of Artit</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", "Artists", null, new { @class = "btn btn-primary btn-large" })
 </p>
 <table class="table">
     <tr>       
@@ -59,11 +59,22 @@
         <td>
             @Html.DisplayFor(modelItem => item.Rewards)
         </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ArtistID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ArtistID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ArtistID })
-        </td>
+        @if (ViewBag.displayMenu == "Yes")
+        {
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ArtistID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ArtistID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ArtistID })
+            </td>
+        }
+        else
+        {
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ArtistID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ArtistID })
+            </td>
+        }
+
     </tr>
 }
 
