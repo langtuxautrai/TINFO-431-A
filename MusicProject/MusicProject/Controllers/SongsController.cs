@@ -70,7 +70,7 @@ namespace MusicProject.Controllers
             ViewBag.TitleSorting = String.IsNullOrEmpty(name) ? "Title_DESC" : "";
             ViewBag.GenreSorting = name == "Genres" ? "Genres_DESC" : "Genres";
             ViewBag.ArtistSorting = name == "Artist" ? "Artist_DESC" : "Artist";
-            ViewBag.ComposeSorting = name == "Composer" ? "Composer_DESC" : "Composer";
+            ViewBag.ComposerSorting = name == "Composer" ? "Composer_DESC" : "Composer";
             ViewBag.AlbumSorting = name == "Album" ? "Album_DESC" : "Album";
             ViewBag.DateSorting = name == "Date" ? "Date_DESC" : "Date";
 

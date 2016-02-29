@@ -60,11 +60,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Release, htmlAttributes: new { @class = "control-label col-md-2" })           
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Release, "{0:d}")
-                @Html.DisplayText("in form mm-dd-yyyy")
-                @*
-    @Html.EditorFor(model => model.Release, new { htmlAttributes = new { @class = "form-control" } })
-                *@
+                @Html.TextBoxFor(model => model.Release, "{0:d}")                
                 @Html.ValidationMessageFor(model => model.Release, "", new { @class = "text-danger" })
             </div>
         </div>

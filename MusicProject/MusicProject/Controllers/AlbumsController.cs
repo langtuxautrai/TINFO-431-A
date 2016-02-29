@@ -69,6 +69,7 @@ namespace MusicProject.Controllers
             //Set up sorting cases 
             ViewBag.TitleSorting = String.IsNullOrEmpty(name) ? "Title_DESC" : "";            
             ViewBag.ArtistSorting = name == "Artist" ? "Artist_DESC" : "Artist";
+            ViewBag.GenreSorting = name == "Genres" ? "Genres_DESC" : "Genres";
             ViewBag.ProducerSorting = name == "Producer" ? "Producer_DESC" : "Producer";
             ViewBag.CompanySorting = name == "Company" ? "Company_DESC" : "Company";
             ViewBag.DateSorting = name == "Date" ? "Date_DESC" : "Date";
@@ -81,6 +82,12 @@ namespace MusicProject.Controllers
                     break;                
                 case "Artist":
                     album = album.OrderBy(s => s.Artists.Fname);
+                    break;
+                case "Genres":
+                    album = album.OrderBy(s => s.Genres);
+                    break;
+                case "Genres_DESC":
+                    album = album.OrderByDescending(s => s.Genres);
                     break;
                 case "Artist_DESC":
                     album = album.OrderByDescending(s => s.Artists.Fname);
