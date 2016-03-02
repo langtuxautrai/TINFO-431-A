@@ -18,7 +18,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Artists.FullName)
+            Artist
         </dt>
 
         <dd>
@@ -61,17 +61,26 @@
 
 <h4>The List of Songs</h4>
 
-<div>    
-    <ol>
-        @foreach (var song in Model.Songs)
-            {
-            <li>
-                @song.Title
-            </li>
+<div>
+    <table class=" table">
+        <tr>
+            <th>TITLE</th>
+            <th>RELEASE</th>
+        </tr>
+        @foreach (var al in Model.Songs)
+        {
+            <tr>
+                <td>@al.Title</td>                
+                <td>@al.Release</td>
+            </tr>
         }
-    </ol> 
+    </table>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.AlbumID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+<div>
+    @using (Html.BeginForm("Edit", "Albums", new { id = Model.AlbumID }, method: FormMethod.Get))
+    {
+        <input type="submit" value="Edit" class="btn btn-default" />
+        @Html.ActionLink("Cancel", "Index", "Albums", null, new { @class = "btn btn-default" })
+    }
+</div>

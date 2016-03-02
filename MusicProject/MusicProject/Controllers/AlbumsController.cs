@@ -144,7 +144,7 @@ namespace MusicProject.Controllers
         // GET: Albums/Create
         public ActionResult Create()
         {
-            ViewBag.ArtistID = new SelectList(db.Artists, "ArtistID", "Fname");
+            ViewBag.ArtistID = new SelectList(db.Artists, "ArtistID", "FullName");
             ViewBag.CompanyID = new SelectList(db.Companies, "CompanyID", "Name");
             return View();
         }
@@ -163,7 +163,7 @@ namespace MusicProject.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ArtistID = new SelectList(db.Artists, "ArtistID", "Fname", album.ArtistID);
+            ViewBag.ArtistID = new SelectList(db.Artists, "ArtistID", "FullName", album.ArtistID);
             ViewBag.CompanyID = new SelectList(db.Companies, "CompanyID", "Name", album.CompanyID);
             return View(album);
         }
@@ -180,7 +180,7 @@ namespace MusicProject.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ArtistID = new SelectList(db.Artists, "ArtistID", "Fname", album.ArtistID);
+            ViewBag.ArtistID = new SelectList(db.Artists, "ArtistID", "FullName", album.ArtistID);
             ViewBag.CompanyID = new SelectList(db.Companies, "CompanyID", "Name", album.CompanyID);
             return View(album);
         }
@@ -198,7 +198,7 @@ namespace MusicProject.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ArtistID = new SelectList(db.Artists, "ArtistID", "Fname", album.ArtistID);
+            ViewBag.ArtistID = new SelectList(db.Artists, "ArtistID", "FullName", album.ArtistID);
             ViewBag.CompanyID = new SelectList(db.Companies, "CompanyID", "Name", album.CompanyID);
             return View(album);
         }

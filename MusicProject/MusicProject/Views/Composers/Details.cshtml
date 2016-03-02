@@ -53,7 +53,22 @@
 
     </dl>
 </div>
+<h4>List of Songs</h4>
+<div>
+    <table class="table">
+        <tr>
+            <th>TITLE</th>
+            <th>RELEASE</th>
+        </tr>
+        @foreach (var song in Model.Songs)
+        {
+            <tr>
+                <td>@song.Title</td>
+                <td>@song.Release</td>
+            </tr>
+        }       
+    </table>
+</div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ComposerID }) |
-    @Html.ActionLink("Back to List", "Index")
+   
 </p>

@@ -11,14 +11,7 @@
     <h4>Composer</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Companies.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Companies.Name)
-        </dd>
-
+       
         <dt>
             @Html.DisplayNameFor(model => model.Fname)
         </dt>
@@ -44,6 +37,14 @@
         </dd>
 
         <dt>
+            Work for
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Companies.Name)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Rewards)
         </dt>
 
@@ -58,7 +59,7 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            @Html.ActionLink("Cancel", "Index", "Composers", null, new { @class = "bnt bnt-default" })
         </div>
     }
 </div>

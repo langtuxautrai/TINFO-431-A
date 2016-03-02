@@ -5,28 +5,34 @@
 }
 
 <h2>List Of Composers</h2>
-
+<div>
+    @using (Html.BeginForm())
+    {
+        <p>
+            Search: @Html.TextBox("SearchString")
+            <input type="submit" value="Search" />
+        </p>
+    }
+</div>
 <p>
-    @Html.ActionLink("Create New", "Create", "Composer", null, new { @class = "btn btn-primary btn-large" })
+    @Html.ActionLink("Add New Composer", "Create", "Composer", null, new { @class = "btn btn-primary btn-large" })
 </p>
 <table class="table">
     <tr>
         
         <th>
-            @Html.DisplayNameFor(model => model.Fname)
+            @Html.ActionLink("FIRST NAME", "Index", new { name = ViewBag.FnameSorting })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Lname)
+            @Html.ActionLink("LAST NAME", "Index", new { name = ViewBag.LnameSorting })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Genres)
-        </th>
+            @Html.ActionLink("GENRES", "Index", new { name = ViewBag.GenreSorting })
+        </th>        
         <th>
-            Works for
+            @Html.ActionLink("MANAGE BY", "Index", new { name = ViewBag.CompanySorting })
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Rewards)
-        </th>
+        <th></th>
         <th></th>
     </tr>
 
@@ -43,24 +49,22 @@
             @Html.DisplayFor(modelItem => item.Genres)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Companies.Name)
+            <a href="Companies/Details/@item.CompanyID">@Html.DisplayFor(modelItem => item.Companies.Name)</a>
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Rewards)
+            @Html.ActionLink("Details", "Detail", new { id = item.ComposerID })
         </td>
         @if (ViewBag.displayMenu == "Yes")
         {
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ComposerID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ComposerID }) |
+                @Html.ActionLink("Edit", "Edit", new { id = item.ComposerID }) |                
                 @Html.ActionLink("Delete", "Delete", new { id = item.ComposerID })
             </td>
         }
         else
         {
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ComposerID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ComposerID }) 
+                @Html.ActionLink("Edit", "Edit", new { id = item.ComposerID })
             </td>
         }
     </tr>

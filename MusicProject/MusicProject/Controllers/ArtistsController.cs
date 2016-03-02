@@ -43,7 +43,7 @@ namespace MusicProject.Controllers
         }
 
         // GET: Artists
-        public ActionResult Index()
+        public ActionResult Index(string name, string searchString)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -58,8 +58,54 @@ namespace MusicProject.Controllers
                 }
             }
 
-            var artists = db.Artists.Include(a => a.Companies);
-            return View(artists.ToList());
+            var artist = from s in db.Artists select s;
+
+            //Searching the song by song title
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                artist = artist.Where(s => s.FullName.Contains(searchString));
+            }
+
+            //Set up sorting cases 
+            ViewBag.FnameSorting = String.IsNullOrEmpty(name) ? "Fname_DESC" : "";
+            ViewBag.LnameSorting = name == "Lname" ? "Lname_DESC" : "Lname";            
+            ViewBag.GenreSorting = name == "Genres" ? "Genres_DESC" : "Genres";            
+            ViewBag.CompanySorting = name == "Company" ? "Company_DESC" : "Company";
+            ViewBag.DateSorting = name == "Date" ? "Date_DESC" : "Date";
+
+            //Sorting by title, genre, or artist first name
+            switch (name)
+            {
+                case "Fname_DESC":
+                    artist = artist.OrderByDescending(s => s.Fname);
+                    break;
+                case "Lname":
+                    artist = artist.OrderBy(s => s.Lname);
+                    break;
+                case "Genres":
+                    artist = artist.OrderBy(s => s.Genres);
+                    break;
+                case "Genres_DESC":
+                    artist = artist.OrderByDescending(s => s.Genres);
+                    break;
+                case "Company":
+                    artist = artist.OrderBy(s => s.Companies.Name);
+                    break;
+                case "Company_DESC":
+                    artist = artist.OrderByDescending(s => s.Companies.Name);
+                    break;
+                case "Date":
+                    artist = artist.OrderBy(s => s.Debut_in);
+                    break;
+                case "Date_DESC":
+                    artist = artist.OrderByDescending(s => s.Debut_in);
+                    break;
+                default:
+                    artist = artist.OrderBy(s => s.Fname);
+                    break;
+            }
+
+            return View(artist.ToList());
         }
 
         // GET: Artists/Details/5
@@ -74,7 +120,9 @@ namespace MusicProject.Controllers
             {
                 return HttpNotFound();
             }
-            return View(artist);
+            var albumModel = db.Artists.Include(s => s.Albums).Include(s => s.Songs).Single(g => g.ArtistID == id);
+
+            return View(albumModel);
         }
 
         // GET: Artists/Create
@@ -155,6 +203,7 @@ namespace MusicProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+
             Artist artist = db.Artists.Find(id);
             db.Artists.Remove(artist);
             db.SaveChanges();

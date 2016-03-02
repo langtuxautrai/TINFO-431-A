@@ -43,7 +43,7 @@ namespace MusicProject.Controllers
         }
 
         // GET: Composers
-        public ActionResult Index()
+        public ActionResult Index(string name, string searchString)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -58,8 +58,47 @@ namespace MusicProject.Controllers
                 }
             }
 
-            var composers = db.Composers.Include(c => c.Companies);
-            return View(composers.ToList());
+            var composer = from s in db.Composers select s;
+
+            //Searching the song by song title
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                composer = composer.Where(s => s.FullName.Contains(searchString));
+            }
+
+            //Set up sorting cases 
+            ViewBag.FnameSorting = String.IsNullOrEmpty(name) ? "Fname_DESC" : "";
+            ViewBag.LnameSorting = name == "Lname" ? "Lname_DESC" : "Lname";
+            ViewBag.GenreSorting = name == "Genres" ? "Genres_DESC" : "Genres";
+            ViewBag.CompanySorting = name == "Company" ? "Company_DESC" : "Company";
+           
+            //Sorting by title, genre, or artist first name
+            switch (name)
+            {
+                case "Fname_DESC":
+                    composer = composer.OrderByDescending(s => s.Fname);
+                    break;
+                case "Lname":
+                    composer = composer.OrderBy(s => s.Lname);
+                    break;
+                case "Genres":
+                    composer = composer.OrderBy(s => s.Genres);
+                    break;
+                case "Genres_DESC":
+                    composer = composer.OrderByDescending(s => s.Genres);
+                    break;
+                case "Company":
+                    composer = composer.OrderBy(s => s.Companies.Name);
+                    break;
+                case "Company_DESC":
+                    composer = composer.OrderByDescending(s => s.Companies.Name);
+                    break;
+                default:
+                    composer = composer.OrderBy(s => s.Fname);
+                    break;
+            }
+
+            return View(composer.ToList());
         }
 
         // GET: Composers/Details/5
@@ -74,7 +113,10 @@ namespace MusicProject.Controllers
             {
                 return HttpNotFound();
             }
-            return View(composer);
+
+            var songList = db.Composers.Include(s => s.Songs).Single(s => s.ComposerID == id);
+
+            return View(songList);
         }
 
         // GET: Composers/Create

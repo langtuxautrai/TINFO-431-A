@@ -137,8 +137,8 @@ namespace MusicProject.Controllers
         public ActionResult Create()
         {
             ViewBag.AlbumID = new SelectList(db.Albums, "AlbumID", "Title");
-            ViewBag.ArtistID = new SelectList(db.Artists, "ArtistID", "Fname");
-            ViewBag.ComposerID = new SelectList(db.Composers, "ComposerID", "Fname");
+            ViewBag.ArtistID = new SelectList(db.Artists, "ArtistID", "FullName");
+            ViewBag.ComposerID = new SelectList(db.Composers, "ComposerID", "FullName");
             return View();
         }
 
@@ -158,8 +158,8 @@ namespace MusicProject.Controllers
             }
 
             ViewBag.AlbumID = new SelectList(db.Albums, "AlbumID", "Title", song.AlbumID);
-            ViewBag.ArtistID = new SelectList(db.Artists, "ArtistID", "Fname", song.ArtistID);
-            ViewBag.ComposerID = new SelectList(db.Composers, "ComposerID", "Fname", song.ComposerID);
+            ViewBag.ArtistID = new SelectList(db.Artists, "ArtistID", "FullName", song.ArtistID);
+            ViewBag.ComposerID = new SelectList(db.Composers, "ComposerID", "FullName", song.ComposerID);
             return View(song);
         }
 
@@ -176,8 +176,8 @@ namespace MusicProject.Controllers
                 return HttpNotFound();
             }
             ViewBag.AlbumID = new SelectList(db.Albums, "AlbumID", "Title", song.AlbumID);
-            ViewBag.ArtistID = new SelectList(db.Artists, "ArtistID", "Fname", song.ArtistID);
-            ViewBag.ComposerID = new SelectList(db.Composers, "ComposerID", "Fname", song.ComposerID);
+            ViewBag.ArtistID = new SelectList(db.Artists, "ArtistID", "FullName", song.ArtistID);
+            ViewBag.ComposerID = new SelectList(db.Composers, "ComposerID", "FullName", song.ComposerID);
             return View(song);
         }
 
@@ -195,8 +195,8 @@ namespace MusicProject.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.AlbumID = new SelectList(db.Albums, "AlbumID", "Title", song.AlbumID);
-            ViewBag.ArtistID = new SelectList(db.Artists, "ArtistID", "Fname", song.ArtistID);
-            ViewBag.ComposerID = new SelectList(db.Composers, "ComposerID", "Fname", song.ComposerID);
+            ViewBag.ArtistID = new SelectList(db.Artists, "ArtistID", "FullName", song.ArtistID);
+            ViewBag.ComposerID = new SelectList(db.Composers, "ComposerID", "FullName", song.ComposerID);
             return View(song);
         }
 
