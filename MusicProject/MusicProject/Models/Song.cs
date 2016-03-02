@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace MusicProject.Models
 {
@@ -37,8 +38,8 @@ namespace MusicProject.Models
 
         [Display(Name = "Peak position")]
         public string Peak_position { get; set; }
-
-        [DataType(DataType.MultilineText)]
+        
+        [AllowHtml]
         public string Lyric { get; set; }
     }
 }

@@ -6,81 +6,85 @@
 
 <h2>"@Html.DisplayFor(model => model.Title)" Album</h2>
 
-<div>
+<div class="row">
+    <div class="col-md-4">
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
 
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+            <dt>
+                Artist
+            </dt>
 
-        <dt>
-            Artist
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Artists.FullName)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Artists.FullName)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Genres)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Genres)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Genres)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Genres)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Producers)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Producers)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Producers)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Producers)
-        </dd>
+            <dt>
+                Labels by
+            </dt>
 
-        <dt>
-            Labels by
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Companies.Name)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Companies.Name)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Release)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Release)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Release)
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-4" style="padding:10px">
+        <img src=http://weknowyourdreamz.com/images/smile/smile-07.jpg alt="Sample Image" width="300" />
+        </div>
+    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Release)
-        </dd>
-    </dl>
-</div>
+    <h4>The List of Songs</h4>
 
-<h4>The List of Songs</h4>
-
-<div>
-    <table class=" table">
-        <tr>
-            <th>TITLE</th>
-            <th>RELEASE</th>
-        </tr>
-        @foreach (var al in Model.Songs)
-        {
+    <div>
+        <table class=" table">
             <tr>
-                <td>@al.Title</td>                
-                <td>@al.Release</td>
+                <th>TITLE</th>
+                <th>RELEASE</th>
             </tr>
-        }
-    </table>
-</div>
+            @foreach (var al in Model.Songs)
+            {
+                <tr>
+                    <td>@al.Title</td>
+                    <td>@al.Release</td>
+                </tr>
+            }
+        </table>
+    </div>
 
-<div>
-    @using (Html.BeginForm("Edit", "Albums", new { id = Model.AlbumID }, method: FormMethod.Get))
-    {
-        <input type="submit" value="Edit" class="btn btn-default" />
-        @Html.ActionLink("Cancel", "Index", "Albums", null, new { @class = "btn btn-default" })
-    }
-</div>
+    <div>
+        @using (Html.BeginForm("Edit", "Albums", new { id = Model.AlbumID }, method: FormMethod.Get))
+        {
+            <input type="submit" value="Edit" class="btn btn-default" />
+            @Html.ActionLink("Cancel", "Index", "Albums", null, new { @class = "btn btn-default" })
+        }
+    </div>

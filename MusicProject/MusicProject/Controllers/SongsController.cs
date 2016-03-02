@@ -147,6 +147,7 @@ namespace MusicProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         public ActionResult Create([Bind(Include = "SongID,Title,Genres,ArtistID,AlbumID,ComposerID,Release,Peak_position,Lyric")] Song song)
         {
             if (ModelState.IsValid)

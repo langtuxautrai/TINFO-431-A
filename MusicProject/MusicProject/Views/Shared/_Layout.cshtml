@@ -6,7 +6,7 @@
     <title>@ViewBag.Title - Music Project</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    @Scripts.Render("~/ckeditor/ckeditor.js")
     <meta name="description" content="The description of my page" />
 </head>
 <body>
@@ -42,6 +42,6 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    @RenderSection("scripts", required: false)    
 </body>
 </html>
