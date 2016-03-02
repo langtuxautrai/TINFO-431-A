@@ -4,27 +4,35 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
+<h2>List Of Companies</h2>
+<div>
+    @using (Html.BeginForm())
+    {
+        <p>
+            Search: @Html.TextBox("SearchString")
+            <input type="submit" value="Search" />
+        </p>
+    }
+</div>
 <p>
-    @Html.ActionLink("Create New", "Create", "Companies", null, new { @class = "btn btn-primary btn-large" })
+    @Html.ActionLink("Add New Company", "Create", "Companies", null, new { @class = "btn btn-primary btn-large" })
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.ActionLink("NAME", "Index", new { name = ViewBag.CompanySorting })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Address)
+            ADDRESS
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.phone)
+            PHONE NUMBER
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Website)
+            WEBSITE
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Found)
+            @Html.ActionLink("FOUND IN", "Index", new { name = ViewBag.DateSorting })
         </th>
         <th></th>
     </tr>

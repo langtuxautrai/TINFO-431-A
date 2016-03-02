@@ -43,7 +43,7 @@ namespace MusicProject.Controllers
         }
 
         // GET: Companies
-        public ActionResult Index()
+        public ActionResult Index(string name, string searchString)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -58,7 +58,40 @@ namespace MusicProject.Controllers
                 }
             }
 
-            return View(db.Companies.ToList());
+            var company = from s in db.Companies select s;
+
+            //Searching the song by song title
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                company = company.Where(s => s.Name.Contains(searchString));
+            }
+
+            //Set up sorting cases 
+            ViewBag.TitleSorting = String.IsNullOrEmpty(name) ? "Title_DESC" : "";
+            ViewBag.ArtistSorting = name == "Artist" ? "Artist_DESC" : "Artist";
+            ViewBag.GenreSorting = name == "Genres" ? "Genres_DESC" : "Genres";
+            ViewBag.ProducerSorting = name == "Producer" ? "Producer_DESC" : "Producer";
+            ViewBag.CompanySorting = name == "Company" ? "Company_DESC" : "Company";
+            ViewBag.DateSorting = name == "Date" ? "Date_DESC" : "Date";
+
+            //Sorting by title, genre, or artist first name
+            switch (name)
+            {
+                case "Company_DESC":
+                    company = company.OrderByDescending(s => s.Name);
+                    break;
+                case "Date":
+                    company = company.OrderBy(s => s.Found);
+                    break;
+                case "Date_DESC":
+                    company = company.OrderByDescending(s => s.Found);
+                    break;
+                default:
+                    company = company.OrderBy(s => s.Name);
+                    break;
+            }
+
+            return View(company.ToList());
         }
 
         // GET: Companies/Details/5
