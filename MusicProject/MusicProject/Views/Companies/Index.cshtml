@@ -23,13 +23,13 @@
             @Html.ActionLink("NAME", "Index", new { name = ViewBag.CompanySorting })
         </th>
         <th>
-            ADDRESS
+            @Html.ActionLink("ADDRESS", "Index", new { name = ViewBag.AddressSorting })
         </th>
         <th>
-            PHONE NUMBER
+            @Html.ActionLink("PHONE NUMBER", "Index", new { name = ViewBag.PhoneSorting })
         </th>
         <th>
-            WEBSITE
+            @Html.ActionLink("WEBSITE", "Index", new { name = ViewBag.WebsiteSorting })
         </th>
         <th>
             @Html.ActionLink("FOUND IN", "Index", new { name = ViewBag.DateSorting })
@@ -40,7 +40,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Name)
+            <a href="Companies/Details/@item.CompanyID">@Html.DisplayFor(modelItem => item.Name)</a>
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Address)
@@ -58,15 +58,13 @@
         {
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.CompanyID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.CompanyID }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.CompanyID })
             </td>
         }
         else
         {
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.CompanyID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.CompanyID })
+                @Html.ActionLink("Edit", "Edit", new { id = item.CompanyID })
             </td>
         }
     </tr>

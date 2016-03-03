@@ -13,9 +13,12 @@ namespace MusicProject.Models
         [Key]
         public int ArtistID { get; set; }
 
+        [Required]
+        [StringLength(50, MinimumLength = 1)]
         [Display(Name = "First Name")]
         public string Fname { get; set; }
 
+        [StringLength(50, MinimumLength = 1)]
         [Display(Name = "Last Name")]
         public string Lname { get; set; }
 
@@ -23,6 +26,7 @@ namespace MusicProject.Models
         public string FullName {
             get { return Fname + " " + Lname; }
         }
+
         public string Genres { get; set; }
 
         [Display (Name = "Debut In")]
@@ -33,7 +37,7 @@ namespace MusicProject.Models
         public string History { get; set; }
         //public string Website { get; set; }
          
-        [Display(Name = "Manages by")] 
+        [Display(Name = "Manages by")]        
         [ForeignKey("Companies")]      
         public int? CompanyID { get; set; }  //Foreign Key
         public virtual Company Companies { get; set; }  //Navigation

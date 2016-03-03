@@ -10,6 +10,9 @@ namespace MusicProject.Models
     {
         [Key]
         public int CompanyID { get; set; }
+
+        [Required]
+        [StringLength(100, MinimumLength = 1)]
         public string Name { get; set; }
         public string Address { get; set; }
 

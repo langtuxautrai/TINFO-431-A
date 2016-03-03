@@ -9,6 +9,9 @@ namespace MusicProject.Models
     {
         [Key]
         public int AlbumID { get; set; }
+
+        [Required]
+        [StringLength(100, MinimumLength = 1)]
         [Display(Name = "Album's Title")]
         public string Title { get; set; }
 

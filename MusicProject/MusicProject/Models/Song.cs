@@ -12,15 +12,18 @@ namespace MusicProject.Models
     {
         [Key]
         public int SongID { get; set; }
+
+        [Required]
+        [StringLength(100, MinimumLength = 1)]
         [Display(Name = "Song's Title")]
         public string Title { get; set; }
+
         public string Genres { get; set; }
 
         [Display(Name = "Sing by")]
         [ForeignKey("Artists")]
         public int ArtistID { get; set; }   //Foreign key
         public virtual Artist Artists { get; set; } //Navigation
-
 
         [Display(Name = "Composer")]
         [ForeignKey("Composers")]
@@ -37,6 +40,7 @@ namespace MusicProject.Models
         public DateTime? Release { get; set; }
 
         [Display(Name = "Peak position")]
+        [DataType(DataType.MultilineText)]
         public string Peak_position { get; set; }
         
         [AllowHtml]

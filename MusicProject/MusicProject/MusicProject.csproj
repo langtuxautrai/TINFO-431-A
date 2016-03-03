@@ -182,6 +182,10 @@
     <Compile Include="Migrations\201602252222517_nullArtist.Designer.cs">
       <DependentUpon>201602252222517_nullArtist.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201603031250572_Annotation.cs" />
+    <Compile Include="Migrations\201603031250572_Annotation.Designer.cs">
+      <DependentUpon>201603031250572_Annotation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ViewModel\DetailData.cs" />
     <Compile Include="Models\MusicContext.cs" />
@@ -306,6 +310,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201602252222517_nullArtist.resx">
       <DependentUpon>201602252222517_nullArtist.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603031250572_Annotation.resx">
+      <DependentUpon>201603031250572_Annotation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

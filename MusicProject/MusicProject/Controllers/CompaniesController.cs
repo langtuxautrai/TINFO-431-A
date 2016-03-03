@@ -67,18 +67,35 @@ namespace MusicProject.Controllers
             }
 
             //Set up sorting cases 
-            ViewBag.TitleSorting = String.IsNullOrEmpty(name) ? "Title_DESC" : "";
-            ViewBag.ArtistSorting = name == "Artist" ? "Artist_DESC" : "Artist";
-            ViewBag.GenreSorting = name == "Genres" ? "Genres_DESC" : "Genres";
-            ViewBag.ProducerSorting = name == "Producer" ? "Producer_DESC" : "Producer";
-            ViewBag.CompanySorting = name == "Company" ? "Company_DESC" : "Company";
+            ViewBag.TitleSorting = String.IsNullOrEmpty(name) ? "Name_DESC" : "";
+            ViewBag.AddressSorting = name == "Address" ? "Address_DESC" : "Address";
+            ViewBag.PhoneSorting = name == "Phone" ? "Phone_DESC" : "Phone";
+            ViewBag.WebsiteSorting = name == "Website" ? "Website_DESC" : "Website";            
             ViewBag.DateSorting = name == "Date" ? "Date_DESC" : "Date";
 
             //Sorting by title, genre, or artist first name
             switch (name)
             {
-                case "Company_DESC":
+                case "Name_DESC":
                     company = company.OrderByDescending(s => s.Name);
+                    break;
+                case "Address":
+                    company = company.OrderBy(s => s.Address);
+                    break;
+                case "Address_DESC":
+                    company = company.OrderByDescending(s => s.Address);
+                    break;
+                case "Phone":
+                    company = company.OrderBy(s => s.phone);
+                    break;
+                case "Phone_DESC":
+                    company = company.OrderByDescending(s => s.phone);
+                    break;
+                case "Website":
+                    company = company.OrderBy(s => s.Website);
+                    break;
+                case "Website_DESC":
+                    company = company.OrderByDescending(s => s.Website);
                     break;
                 case "Date":
                     company = company.OrderBy(s => s.Found);

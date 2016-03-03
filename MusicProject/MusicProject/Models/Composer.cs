@@ -12,9 +12,12 @@ namespace MusicProject.Models
         [Key]
         public int ComposerID { get; set; }
 
+        [Required]
+        [StringLength(50, MinimumLength = 1)]
         [Display(Name = "First Name")]
         public string Fname { get; set; }
 
+        [StringLength(50, MinimumLength = 1)]
         [Display(Name = "Last Name")]
         public string Lname { get; set; }
 
