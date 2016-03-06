@@ -42,6 +42,20 @@ namespace MusicProject.Controllers
             return false;
         }
 
+        //do a quick search for album
+        public ActionResult QuickSearch(string term)
+        {
+            var albums = GetAlbums(term).Select(a => new { value = a.Title });
+            return Json(albums, JsonRequestBehavior.AllowGet);
+        }
+
+        //get the Album in db
+        private List<Album> GetAlbums(string searchString)
+        {
+            return db.Albums
+                .Where(a => a.Title.Contains(searchString))
+                .ToList();
+        }
         // GET: Albums
         public ActionResult Index(String name, string searchString)
         {

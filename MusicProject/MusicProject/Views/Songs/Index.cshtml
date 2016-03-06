@@ -9,7 +9,7 @@
     @using (Html.BeginForm())
     {
         <p>
-            Search: @Html.TextBox("SearchString")            
+            Search: <input type="text"  name="searchString" data-autocomplete-source="@Url.Action("QuickSearch", "Songs")" />           
             <input type="submit" value="Search" />
         </p>
     }
@@ -25,7 +25,7 @@
         <th>
             @*
             @Html.DisplayNameFor(model => model.Title) *@
-            @Html.ActionLink("SONG TITLE", "Index", new { name = ViewBag.TitleSorting })
+            @Html.ActionLink("SONG TITLE", "Index", new { name = ViewBag.TitleSorting }, "searchString")
         </th>
         <th>@*
             @Html.DisplayNameFor(model => model.Genres) *@
@@ -83,15 +83,18 @@
                 @Html.ActionLink("Delete", "Delete", new { id = item.SongID })
             </td>
         }
-        else
+        else if (ViewBag.displayMenu == "No")
         {
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.SongID })
             </td>
         }
-
-
     </tr>
 }
 
 </table>
+
+@section Scripts {
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/App/MusicScripts.js"></script>
+}

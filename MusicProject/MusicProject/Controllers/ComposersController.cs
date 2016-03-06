@@ -42,6 +42,21 @@ namespace MusicProject.Controllers
             return false;
         }
 
+        // do a quick search the return a json
+        public ActionResult QuickSearch(string term)
+        {
+            var composers = GetComposers(term).Select(a => new { value = a.Lname });
+            return Json(composers, JsonRequestBehavior.AllowGet);
+        }
+
+        //get the songs in db
+        private List<Composer> GetComposers(string searchString)
+        {
+            return db.Composers
+                .Where(a => a.Lname.Contains(searchString))
+                .ToList();
+        }
+
         // GET: Composers
         public ActionResult Index(string name, string searchString)
         {

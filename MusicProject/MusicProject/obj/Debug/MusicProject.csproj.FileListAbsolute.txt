@@ -425,3 +425,4 @@ C:\Users\Mark\Desktop\TINFO431 Project\TINFO-v1\TINFO-431-A\MusicProject\MusicPr
 C:\Users\Mark\Desktop\TINFO431 Project\TINFO-v1\TINFO-431-A\MusicProject\MusicProject\obj\Debug\MusicProject.dll
 C:\Users\Mark\Desktop\TINFO431 Project\TINFO-v1\TINFO-431-A\MusicProject\MusicProject\obj\Debug\MusicProject.pdb
 C:\Users\Navy\Desktop\GitHub\TINFO-431-A\MusicProject\MusicProject\obj\Debug\MusicProject.Migrations.Annotation.resources
+C:\Users\Mark\Desktop\TINFO431 Project\TINFO-v1\TINFO-431-A\MusicProject\MusicProject\obj\Debug\MusicProject.Migrations.Annotation.resources

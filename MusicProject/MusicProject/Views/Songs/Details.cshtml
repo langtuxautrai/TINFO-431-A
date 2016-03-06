@@ -77,9 +77,21 @@
     </dl>
 </div>
 <div>
+        
     @using (Html.BeginForm("Edit", "Songs", new { id = Model.SongID }, method: FormMethod.Get))
     {
-        <input type="submit" value="Edit" class="btn btn-default"/>
-        @Html.ActionLink("Cancel", "Index", "Songs", null, new { @class = "btn btn-default" })
+        if (ViewBag.displayMenu == "Yes")
+        {
+            //add more function for admin
+            <input type="submit" value="Edit" class="btn btn-default" />
+        }
+        else if (ViewBag.displayMenu == "No")
+        {
+            <input type="submit" value="Edit" class="btn btn-default" />
+        }
+
     }
+    
+    @Html.ActionLink("Cancel", "Index", "Songs", null, new { @class = "btn btn-default" })
+
 </div>

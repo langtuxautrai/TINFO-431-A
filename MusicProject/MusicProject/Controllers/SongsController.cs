@@ -42,6 +42,20 @@ namespace MusicProject.Controllers
             return false;
         }
 
+        // do a quick search the return a json
+        public ActionResult QuickSearch(string term)
+        {
+            var songs = GetSongs(term).Select(a => new { value = a.Title });
+            return Json(songs, JsonRequestBehavior.AllowGet);
+        }
+
+        //get the songs in db
+        private List<Song> GetSongs(string searchString)
+        {
+            return db.Songs
+                .Where(a => a.Title.Contains(searchString))
+                .ToList();
+        }
         // GET: Songs
         public ActionResult Index(String name, string searchString)
         {
@@ -124,6 +138,19 @@ namespace MusicProject.Controllers
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = User.Identity;
+                ViewBag.Name = user.Name;
+
+                ViewBag.displayMenu = "No";
+
+                if (isAdminUser())
+                {
+                    ViewBag.displayMenu = "Yes";
+                }
             }
             Song song = db.Songs.Find(id);
             if (song == null)

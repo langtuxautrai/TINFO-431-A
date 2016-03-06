@@ -9,7 +9,7 @@
     @using (Html.BeginForm())
     {
         <p>
-            Search: @Html.TextBox("SearchString")
+            Search: <input type="text" name="searchString" data-autocomplete-source="@Url.Action("QuickSearch", "Albums")" />
             <input type="submit" value="Search" />
         </p>
     }
@@ -81,3 +81,8 @@
     }
 
 </table>
+
+@section Scripts {
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/App/MusicScripts.js"></script>
+}

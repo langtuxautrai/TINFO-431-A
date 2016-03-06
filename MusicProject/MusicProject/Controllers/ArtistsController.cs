@@ -42,6 +42,21 @@ namespace MusicProject.Controllers
             return false;
         }
 
+        // do a quick search that returns a json
+        public ActionResult QuickSearch(string term)
+        {
+            var artists = GetArtists(term).Select(a => new { value = a.Lname });
+            return Json(artists, JsonRequestBehavior.AllowGet);
+        }
+
+        //get the Artists in db
+        private List<Artist> GetArtists(string searchString)
+        {
+            return db.Artists
+                .Where(a => a.Lname.Contains(searchString))
+                .ToList();
+        }
+
         // GET: Artists
         public ActionResult Index(string name, string searchString)
         {
@@ -63,7 +78,7 @@ namespace MusicProject.Controllers
             //Searching the song by song title
             if (!String.IsNullOrEmpty(searchString))
             {
-                artist = artist.Where(s => s.FullName.Contains(searchString));
+                artist = artist.Where(s => s.Lname.Contains(searchString));
             }
 
             //Set up sorting cases 
