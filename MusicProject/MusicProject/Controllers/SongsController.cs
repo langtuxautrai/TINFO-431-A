@@ -57,7 +57,7 @@ namespace MusicProject.Controllers
                 .ToList();
         }
         // GET: Songs
-        public ActionResult Index(String name, string searchString)
+        public ViewResult Index(string sortOrder, string currentFilter, string searchString)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -72,24 +72,33 @@ namespace MusicProject.Controllers
                 }
             }
             
-            var songs = from s in db.Songs select s;
+
+            //Set up sorting cases 
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.TitleSorting = String.IsNullOrEmpty(sortOrder) ? "Title_DESC" : "";
+            ViewBag.GenreSorting = sortOrder == "Genres" ? "Genres_DESC" : "Genres";
+            ViewBag.ArtistSorting = sortOrder == "Artist" ? "Artist_DESC" : "Artist";
+            ViewBag.ComposerSorting = sortOrder == "Composer" ? "Composer_DESC" : "Composer";
+            ViewBag.AlbumSorting = sortOrder == "Album" ? "Album_DESC" : "Album";
+            ViewBag.DateSorting = sortOrder == "Date" ? "Date_DESC" : "Date";
+
+            if(searchString == null)
+            {
+                searchString = currentFilter;
+            }
             
+            ViewBag.CurrentFilter = searchString;
+
+            var songs = from s in db.Songs select s;
+
             //Searching the song by song title
             if (!String.IsNullOrEmpty(searchString))
             {
-                songs = songs.Where(s => s.Title.Contains(searchString));                
-            }           
-
-            //Set up sorting cases 
-            ViewBag.TitleSorting = String.IsNullOrEmpty(name) ? "Title_DESC" : "";
-            ViewBag.GenreSorting = name == "Genres" ? "Genres_DESC" : "Genres";
-            ViewBag.ArtistSorting = name == "Artist" ? "Artist_DESC" : "Artist";
-            ViewBag.ComposerSorting = name == "Composer" ? "Composer_DESC" : "Composer";
-            ViewBag.AlbumSorting = name == "Album" ? "Album_DESC" : "Album";
-            ViewBag.DateSorting = name == "Date" ? "Date_DESC" : "Date";
+                songs = songs.Where(s => s.Title.Contains(searchString));
+            }
 
             //Sorting by title, genre, or artist first name
-            switch (name)
+            switch (sortOrder)
             {
                 case "Title_DESC":
                     songs = songs.OrderByDescending(s => s.Title);

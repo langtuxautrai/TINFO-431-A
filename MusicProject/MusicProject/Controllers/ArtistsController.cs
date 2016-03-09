@@ -45,7 +45,7 @@ namespace MusicProject.Controllers
         // do a quick search that returns a json
         public ActionResult QuickSearch(string term)
         {
-            var artists = GetArtists(term).Select(a => new { value = a.Lname });
+            var artists = GetArtists(term).Select(a => new { value = a.Lname, a.Fname });
             return Json(artists, JsonRequestBehavior.AllowGet);
         }
 
@@ -53,12 +53,12 @@ namespace MusicProject.Controllers
         private List<Artist> GetArtists(string searchString)
         {
             return db.Artists
-                .Where(a => a.Lname.Contains(searchString))
+                .Where(a => a.Lname.Contains(searchString) || a.Fname.Contains(searchString))
                 .ToList();
         }
 
         // GET: Artists
-        public ActionResult Index(string name, string searchString)
+        public ActionResult Index(string name, string currentFilter, string searchString)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -73,20 +73,28 @@ namespace MusicProject.Controllers
                 }
             }
 
-            var artist = from s in db.Artists select s;
-
-            //Searching the song by song title
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                artist = artist.Where(s => s.Lname.Contains(searchString));
-            }
-
             //Set up sorting cases 
             ViewBag.FnameSorting = String.IsNullOrEmpty(name) ? "Fname_DESC" : "";
             ViewBag.LnameSorting = name == "Lname" ? "Lname_DESC" : "Lname";            
             ViewBag.GenreSorting = name == "Genres" ? "Genres_DESC" : "Genres";            
             ViewBag.CompanySorting = name == "Company" ? "Company_DESC" : "Company";
             ViewBag.DateSorting = name == "Date" ? "Date_DESC" : "Date";
+
+            if (searchString == null)
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var artist = from s in db.Artists select s;
+
+            //Searching the song by song title
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                artist = artist.Where(s => s.Lname.Contains(searchString)
+                            || s.Fname.Contains(searchString));
+            }
 
             //Sorting by title, genre, or artist first name
             switch (name)
@@ -96,6 +104,9 @@ namespace MusicProject.Controllers
                     break;
                 case "Lname":
                     artist = artist.OrderBy(s => s.Lname);
+                    break;
+                case "Lname_DESC":
+                    artist = artist.OrderByDescending(s => s.Lname);
                     break;
                 case "Genres":
                     artist = artist.OrderBy(s => s.Genres);

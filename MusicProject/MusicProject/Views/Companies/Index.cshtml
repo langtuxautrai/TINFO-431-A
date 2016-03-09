@@ -20,19 +20,19 @@
 <table class="table">
     <tr>
         <th>
-            @Html.ActionLink("NAME", "Index", new { name = ViewBag.CompanySorting })
+            @Html.ActionLink("NAME", "Index", new { name = ViewBag.CompanySorting, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("ADDRESS", "Index", new { name = ViewBag.AddressSorting })
+            @Html.ActionLink("ADDRESS", "Index", new { name = ViewBag.AddressSorting, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("PHONE NUMBER", "Index", new { name = ViewBag.PhoneSorting })
+            @Html.ActionLink("PHONE NUMBER", "Index", new { name = ViewBag.PhoneSorting, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("WEBSITE", "Index", new { name = ViewBag.WebsiteSorting })
+            @Html.ActionLink("WEBSITE", "Index", new { name = ViewBag.WebsiteSorting, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("FOUND IN", "Index", new { name = ViewBag.DateSorting })
+            @Html.ActionLink("FOUND IN", "Index", new { name = ViewBag.DateSorting, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th></th>
     </tr>

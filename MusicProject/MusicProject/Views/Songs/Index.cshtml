@@ -6,10 +6,10 @@
 
 <h2>List Of Songs</h2>
 <div>
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("Index", "Songs", FormMethod.Get))
     {
         <p>
-            Search: <input type="text"  name="searchString" data-autocomplete-source="@Url.Action("QuickSearch", "Songs")" />           
+            Search: <input type="text"  name="searchString" object="ViewBag.CurrentFilter as string" data-autocomplete-source="@Url.Action("QuickSearch", "Songs")" />         
             <input type="submit" value="Search" />
         </p>
     }
@@ -25,23 +25,23 @@
         <th>
             @*
             @Html.DisplayNameFor(model => model.Title) *@
-            @Html.ActionLink("SONG TITLE", "Index", new { name = ViewBag.TitleSorting }, "searchString")
+            @Html.ActionLink("SONG TITLE", "Index", new { sortOrder = ViewBag.TitleSorting, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>@*
             @Html.DisplayNameFor(model => model.Genres) *@
-            @Html.ActionLink("GENRES", "Index", new { name = ViewBag.GenreSorting })
+            @Html.ActionLink("GENRES", "Index", new { sortOrder = ViewBag.GenreSorting, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("IN ALBUMS", "Index", new { name = ViewBag.AlbumSorting })
+            @Html.ActionLink("IN ALBUMS", "Index", new { sortOrder = ViewBag.AlbumSorting, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("SING BY", "Index", new { name = ViewBag.ArtistSorting })
+            @Html.ActionLink("SING BY", "Index", new { sortOrder = ViewBag.ArtistSorting, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("COMPOSE BY", "Index", new { name = ViewBag.ComposerSorting })
+            @Html.ActionLink("COMPOSE BY", "Index", new { sortOrder = ViewBag.ComposerSorting, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("RELEASE IN", "Index", new { name = ViewBag.DateSorting })
+            @Html.ActionLink("RELEASE IN", "Index", new { sortOrder = ViewBag.DateSorting, currentFilter = ViewBag.CurrentFilter })
         </th>
         
         <th></th>

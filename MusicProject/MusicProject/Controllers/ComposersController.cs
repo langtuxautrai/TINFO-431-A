@@ -45,7 +45,7 @@ namespace MusicProject.Controllers
         // do a quick search the return a json
         public ActionResult QuickSearch(string term)
         {
-            var composers = GetComposers(term).Select(a => new { value = a.Lname });
+            var composers = GetComposers(term).Select(a => new { value = a.Lname});
             return Json(composers, JsonRequestBehavior.AllowGet);
         }
 
@@ -53,12 +53,12 @@ namespace MusicProject.Controllers
         private List<Composer> GetComposers(string searchString)
         {
             return db.Composers
-                .Where(a => a.Lname.Contains(searchString))
+                .Where(a => a.Lname.Contains(searchString) || a.Fname.Contains(searchString))
                 .ToList();
         }
 
         // GET: Composers
-        public ActionResult Index(string name, string searchString)
+        public ActionResult Index(string name, string currentFilter, string searchString)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -73,20 +73,30 @@ namespace MusicProject.Controllers
                 }
             }
 
-            var composer = from s in db.Composers select s;
-
-            //Searching the song by song title
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                composer = composer.Where(s => s.FullName.Contains(searchString));
-            }
+           
 
             //Set up sorting cases 
             ViewBag.FnameSorting = String.IsNullOrEmpty(name) ? "Fname_DESC" : "";
             ViewBag.LnameSorting = name == "Lname" ? "Lname_DESC" : "Lname";
             ViewBag.GenreSorting = name == "Genres" ? "Genres_DESC" : "Genres";
             ViewBag.CompanySorting = name == "Company" ? "Company_DESC" : "Company";
-           
+
+            if (searchString == null)
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var composer = from s in db.Composers select s;
+
+            //Searching the song by song title
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                composer = composer.Where(s => s.Lname.Contains(searchString) 
+                            || s.Fname.Contains(searchString));
+            }
+
             //Sorting by title, genre, or artist first name
             switch (name)
             {

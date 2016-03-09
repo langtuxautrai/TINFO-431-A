@@ -21,22 +21,22 @@
 <table class="table">
     <tr>
         <th>
-            @Html.ActionLink("ALBUM TITLE", "Index", new { name = ViewBag.TitleSorting })
+            @Html.ActionLink("ALBUM TITLE", "Index", new { name = ViewBag.TitleSorting, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("ARTIST", "Index", new { name = ViewBag.ArtistSorting })
+            @Html.ActionLink("ARTIST", "Index", new { name = ViewBag.ArtistSorting, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("GENRES", "Index", new { name = ViewBag.GenreSorting })
+            @Html.ActionLink("GENRES", "Index", new { name = ViewBag.GenreSorting, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("PRODUCER", "Index", new { name = ViewBag.ProducerSorting })
+            @Html.ActionLink("PRODUCER", "Index", new { name = ViewBag.ProducerSorting, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("LABELS BY", "Index", new { name = ViewBag.CompanySorting })
+            @Html.ActionLink("LABELS BY", "Index", new { name = ViewBag.CompanySorting, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("RELEASE", "Index", new { name = ViewBag.DateSorting })
+            @Html.ActionLink("RELEASE", "Index", new { name = ViewBag.DateSorting, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th></th>
     </tr>

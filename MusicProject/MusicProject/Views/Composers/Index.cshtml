@@ -21,16 +21,16 @@
     <tr>
         
         <th>
-            @Html.ActionLink("FIRST NAME", "Index", new { name = ViewBag.FnameSorting })
+            @Html.ActionLink("FIRST NAME", "Index", new { name = ViewBag.FnameSorting, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("LAST NAME", "Index", new { name = ViewBag.LnameSorting })
+            @Html.ActionLink("LAST NAME", "Index", new { name = ViewBag.LnameSorting, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("GENRES", "Index", new { name = ViewBag.GenreSorting })
+            @Html.ActionLink("GENRES", "Index", new { name = ViewBag.GenreSorting, currentFilter = ViewBag.CurrentFilter })
         </th>        
         <th>
-            @Html.ActionLink("MANAGE BY", "Index", new { name = ViewBag.CompanySorting })
+            @Html.ActionLink("MANAGE BY", "Index", new { name = ViewBag.CompanySorting, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th></th>
         <th></th>

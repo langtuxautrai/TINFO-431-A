@@ -57,7 +57,7 @@ namespace MusicProject.Controllers
                 .ToList();
         }
         // GET: Albums
-        public ActionResult Index(String name, string searchString)
+        public ActionResult Index(string name, string currentFilter, string searchString)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -72,14 +72,6 @@ namespace MusicProject.Controllers
                 }
             }
 
-            var album = from s in db.Albums select s;
-
-            //Searching the song by song title
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                album = album.Where(s => s.Title.Contains(searchString));
-            }
-
             //Set up sorting cases 
             ViewBag.TitleSorting = String.IsNullOrEmpty(name) ? "Title_DESC" : "";            
             ViewBag.ArtistSorting = name == "Artist" ? "Artist_DESC" : "Artist";
@@ -87,6 +79,21 @@ namespace MusicProject.Controllers
             ViewBag.ProducerSorting = name == "Producer" ? "Producer_DESC" : "Producer";
             ViewBag.CompanySorting = name == "Company" ? "Company_DESC" : "Company";
             ViewBag.DateSorting = name == "Date" ? "Date_DESC" : "Date";
+
+            if (searchString == null)
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var album = from s in db.Albums select s;
+
+            //Searching the song by song title
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                album = album.Where(s => s.Title.Contains(searchString));
+            }
 
             //Sorting by title, genre, or artist first name
             switch (name)
