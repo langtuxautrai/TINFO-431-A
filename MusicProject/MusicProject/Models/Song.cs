@@ -41,9 +41,16 @@ namespace MusicProject.Models
 
         [Display(Name = "Peak position")]
         [DataType(DataType.MultilineText)]
-        public string Peak_position { get; set; }
+        public string Peak_position { get; set; }        
         
         [AllowHtml]
+        [Display(Name = "Youtube Link")]
+        public string YoutubeLink { get; set; }
+
+        [AllowHtml]
         public string Lyric { get; set; }
+        
+        [Display(Name = "Created or Updated On")]        
+        public DateTime CreateOrUpdate { get; set; }
     }
 }

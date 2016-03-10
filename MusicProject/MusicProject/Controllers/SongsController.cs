@@ -33,11 +33,7 @@ namespace MusicProject.Controllers
                 if (s[0].ToString() == "Admin")
                 {
                     return true;
-                }
-                else
-                {
-                    return false;
-                }
+                }                
             }
             return false;
         }
@@ -64,11 +60,11 @@ namespace MusicProject.Controllers
                 var user = User.Identity;
                 ViewBag.Name = user.Name;
                 
-                ViewBag.displayMenu = "No";
+                ViewBag.displayMenu = "Member";
 
                 if (isAdminUser())
                 {
-                    ViewBag.displayMenu = "Yes";
+                    ViewBag.displayMenu = "Admin";
                 }
             }
             
@@ -150,22 +146,16 @@ namespace MusicProject.Controllers
             }
 
             if (User.Identity.IsAuthenticated)
-            {
-                var user = User.Identity;
-                ViewBag.Name = user.Name;
-
-                ViewBag.displayMenu = "No";
-
-                if (isAdminUser())
-                {
-                    ViewBag.displayMenu = "Yes";
-                }
+            {                
+                ViewBag.displayMenu = "Member";                
             }
+
             Song song = db.Songs.Find(id);
             if (song == null)
             {
                 return HttpNotFound();
             }
+            
             return View(song);
         }
 
@@ -184,19 +174,34 @@ namespace MusicProject.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult Create([Bind(Include = "SongID,Title,Genres,ArtistID,AlbumID,ComposerID,Release,Peak_position,Lyric")] Song song)
+        public ActionResult Create([Bind(Include = "SongID,Title,Genres,ArtistID,AlbumID,ComposerID,Release,Peak_position,Lyric,YoutubeLink")] Song song)
         {
-            if (ModelState.IsValid)
-            {
-                
-                db.Songs.Add(song);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+            Song title = db.Songs.SingleOrDefault(t => t.Title == song.Title);
 
+            if (title == null)
+            {
+                if (ModelState.IsValid)
+                {
+                    song.CreateOrUpdate = System.DateTime.Now;
+
+                    if (!string.IsNullOrEmpty(song.YoutubeLink))
+                    {                    
+                        string t = "https://www.youtube.com/embed/" + song.YoutubeLink.Substring(32).Split('&')[0];
+                        // https ://ww w.you tube. com/w atch? v=
+                        song.YoutubeLink = t;
+                    }
+                
+                    db.Songs.Add(song);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
             ViewBag.AlbumID = new SelectList(db.Albums, "AlbumID", "Title", song.AlbumID);
             ViewBag.ArtistID = new SelectList(db.Artists, "ArtistID", "FullName", song.ArtistID);
             ViewBag.ComposerID = new SelectList(db.Composers, "ComposerID", "FullName", song.ComposerID);
+
+            ViewBag.Error = "Yes";
+
             return View(song);
         }
 
@@ -223,13 +228,22 @@ namespace MusicProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SongID,Title,Genres,ArtistID,ComposerID,AlbumID,Release,Peak_position,Lyric")] Song song)
+        public ActionResult Edit([Bind(Include = "SongID,Title,Genres,ArtistID,ComposerID,AlbumID,Release,Peak_position,Lyric,YoutubeLink")] Song song)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(song).State = EntityState.Modified;
+
+                if (!string.IsNullOrEmpty(song.YoutubeLink))
+                {
+                    string t = "https://www.youtube.com/embed/" + song.YoutubeLink.Substring(32).Split('&')[0];
+                    // https ://ww w.you tube. com/w atch? v=
+                    song.YoutubeLink = t;
+                }
+
+                song.CreateOrUpdate = System.DateTime.Now;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index");                
             }
             ViewBag.AlbumID = new SelectList(db.Albums, "AlbumID", "Title", song.AlbumID);
             ViewBag.ArtistID = new SelectList(db.Artists, "ArtistID", "FullName", song.ArtistID);

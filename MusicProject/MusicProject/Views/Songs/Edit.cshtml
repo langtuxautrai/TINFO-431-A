@@ -46,12 +46,12 @@
         <div class="col-md-10">
             @if (Model.ComposerID != null)
             {
-            @Html.DropDownList("ComposerID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("ComposerID", null, htmlAttributes: new { @class = "form-control" })
             }
             else {
-            @Html.DropDownList("ComposerID", null, "--- Select One ---", htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("ComposerID", null, "--- Select One ---", htmlAttributes: new { @class = "form-control" })
             }
-            @Html.ValidationMessageFor(model => model.ComposerID, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.ComposerID, "", new { @class = "text-danger" })
 
         </div>
     </div>
@@ -61,11 +61,11 @@
         <div class="col-md-10">
             @if (Model.AlbumID != null)
             {
-            @Html.DropDownList("AlbumID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("AlbumID", null, htmlAttributes: new { @class = "form-control" })
             }
             else
             {
-            @Html.DropDownList("AlbumID", null, "--- Select One ---",htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("AlbumID", null, "--- Select One ---",htmlAttributes: new { @class = "form-control" })
             }
             @Html.ValidationMessageFor(model => model.AlbumID, "", new { @class = "text-danger" })
         </div>
@@ -84,6 +84,14 @@
         <div class="col-md-10">
             @Html.EditorFor(model => model.Peak_position, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Peak_position, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.YoutubeLink, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.YoutubeLink, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.YoutubeLink, "", new { @class = "text-danger" })
         </div>
     </div>
 

@@ -15,9 +15,11 @@
     }
 </div>
 
-<p>   
-    @*Add new song button*@
-    @Html.ActionLink("Add New Song", "Create", "Songs", null, new { @class = "btn btn-primary btn-large" })
+<p>
+    @if (ViewBag.displayMenu == "Admin" || ViewBag.displayMenu == "Member")
+    {
+        @Html.ActionLink("Add New Song", "Create", "Songs", null, new { @class = "btn btn-primary btn-large" })
+    }
 </p>
 
 <table class="table">
@@ -43,8 +45,18 @@
         <th>
             @Html.ActionLink("RELEASE IN", "Index", new { sortOrder = ViewBag.DateSorting, currentFilter = ViewBag.CurrentFilter })
         </th>
-        
-        <th></th>
+
+        @if (ViewBag.displayMenu == "Admin")
+        {
+            <th>
+                @Html.ActionLink("CREATED/MODIFIED", "Index", new { sortOrder = ViewBag.DateSorting, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th></th>
+        }
+        else if (ViewBag.displayMenu == "Member")
+        {
+            <th></th>
+        }        
     </tr>
 
 @foreach (var item in Model)
@@ -76,14 +88,17 @@
             @Html.DisplayFor(modelItem => item.Release)
         </td>
 
-        @if (ViewBag.displayMenu == "Yes")
+        @if (ViewBag.displayMenu == "Admin")
         {
+            <td>
+                @Html.DisplayFor(modelItem => item.CreateOrUpdate)
+            </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.SongID }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.SongID })
             </td>
         }
-        else if (ViewBag.displayMenu == "No")
+        else if (ViewBag.displayMenu == "Member")
         {
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.SongID })

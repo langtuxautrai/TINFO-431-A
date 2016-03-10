@@ -63,7 +63,15 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Peak_position)
+            @Html.Raw(Html.Encode(Model.Peak_position).Replace("\n", "<br />"))
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.YoutubeLink)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.YoutubeLink)
         </dd>
 
         <dt>
@@ -71,7 +79,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Lyric)
+            @Html.Raw(Model.Lyric)
         </dd>
 
     </dl>

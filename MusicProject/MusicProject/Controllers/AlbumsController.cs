@@ -33,11 +33,7 @@ namespace MusicProject.Controllers
                 if (s[0].ToString() == "Admin")
                 {
                     return true;
-                }
-                else
-                {
-                    return false;
-                }
+                }               
             }
             return false;
         }
@@ -64,11 +60,11 @@ namespace MusicProject.Controllers
                 var user = User.Identity;
                 ViewBag.Name = user.Name;
 
-                ViewBag.displayMenu = "No";
+                ViewBag.displayMenu = "Member";
 
                 if (isAdminUser())
                 {
-                    ViewBag.displayMenu = "Yes";
+                    ViewBag.displayMenu = "Admin";
                 }
             }
 
@@ -142,10 +138,14 @@ namespace MusicProject.Controllers
         // GET: Albums/Details/5
         public ActionResult Details(int? id)
         {
-            
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            if (User.Identity.IsAuthenticated)
+            {
+                ViewBag.displayMenu = "Member";
             }
 
             Album album = db.Albums.Find(id);
@@ -155,11 +155,24 @@ namespace MusicProject.Controllers
                 return HttpNotFound();
             }
 
+            getImage(album);
+
             // Retrieve Album and its Songs from database
             var albumModel = db.Albums.Include(s => s.Songs)
                 .Single(g => g.AlbumID == id);
 
-            return View(albumModel);
+            return View(album);
+        }
+
+        public void getImage(Album album)
+        {
+            if (album.Image != null)
+            {
+                byte[] imageByteData = album.Image;
+                string imageBase64Data = Convert.ToBase64String(imageByteData);
+                string imageDataURL = string.Format("data:image/png;base64,{0}", imageBase64Data);
+                ViewBag.ImageData = imageDataURL;
+            }
         }
 
         // GET: Albums/Create
@@ -175,10 +188,17 @@ namespace MusicProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AlbumID,Title,ArtistID,Genres,Producers,CompanyID,Release")] Album album)
+        public ActionResult Create([Bind(Include = "AlbumID,Title,ArtistID,Genres,Producers,CompanyID,Release")] Album album, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
+                using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                {
+                    album.Image = reader.ReadBytes(upload.ContentLength);
+                    album.ImageName = upload.FileName;
+                }
+                album.CreateOrUpdate = System.DateTime.Now;
+
                 db.Albums.Add(album);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -201,6 +221,8 @@ namespace MusicProject.Controllers
             {
                 return HttpNotFound();
             }
+            getImage(album);
+
             ViewBag.ArtistID = new SelectList(db.Artists, "ArtistID", "FullName", album.ArtistID);
             ViewBag.CompanyID = new SelectList(db.Companies, "CompanyID", "Name", album.CompanyID);
             return View(album);
@@ -211,17 +233,31 @@ namespace MusicProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AlbumID,Title,ArtistID,Genres,Producers,CompanyID,Release")] Album album)
+        public ActionResult Edit(int? id, HttpPostedFileBase upload)
         {
-            if (ModelState.IsValid)
+            if (id == null)
             {
-                db.Entry(album).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            Album album = db.Albums.FirstOrDefault(i => i.AlbumID == id);
+
+            if (upload != null && upload.ContentLength > 0)
+            {
+                using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                {
+                    album.Image = reader.ReadBytes(upload.ContentLength);
+                    album.ImageName = upload.FileName;
+                }
+            }
+
+            UpdateModel(album);
+            db.SaveChanges();
+
             ViewBag.ArtistID = new SelectList(db.Artists, "ArtistID", "FullName", album.ArtistID);
             ViewBag.CompanyID = new SelectList(db.Companies, "CompanyID", "Name", album.CompanyID);
-            return View(album);
+
+            return RedirectToAction("Details", new { id = album.AlbumID });
         }
 
         // GET: Albums/Delete/5

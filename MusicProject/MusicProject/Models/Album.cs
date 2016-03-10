@@ -33,6 +33,14 @@ namespace MusicProject.Models
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? Release { get; set; }
 
+        [Display(Name = ("Name of File"))]
+        public string ImageName { get; set; }
+
+        public byte[] Image { get; set; }
+
+        [Display(Name = "Created or Updated On")]
+        public DateTime CreateOrUpdate { get; set; }
+
         public ICollection<Song> Songs { get; set; }
     }
 }

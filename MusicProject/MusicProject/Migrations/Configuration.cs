@@ -12,6 +12,7 @@ namespace MusicProject.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(MusicProject.Models.MusicContext context)

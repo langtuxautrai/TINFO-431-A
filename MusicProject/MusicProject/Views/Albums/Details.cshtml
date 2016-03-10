@@ -6,9 +6,10 @@
 
 <h2>"@Html.DisplayFor(model => model.Title)" Album</h2>
 
+<hr />
+
 <div class="row">
     <div class="col-md-4">
-        <hr />
         <dl class="dl-horizontal">
             <dt>
                 @Html.DisplayNameFor(model => model.Title)
@@ -58,35 +59,44 @@
             </dd>
         </dl>
     </div>
-    
+
     @*Picture as a sample*@
     <div class="col-md-4" style="padding:10px">
-        <img src=http://weknowyourdreamz.com/images/smile/smile-07.jpg alt="Sample Image" width="300" />
-        </div>
+        <img src=@ViewBag.ImageData alt="" width="300" />
     </div>
+</div>
 
-    <h4>The List of Songs</h4>
+<h4>LIST OF SONG</h4>
 
-    <div>
-        <table class=" table">
-            <tr>
-                <th>TITLE</th>
-                <th>RELEASE</th>
-            </tr>
-            @foreach (var al in Model.Songs)
+<div>
+    <table class="table">
+        <tr>
+            <th>TITLE</th>
+            <th>GENRES</th>
+            <th>COMPOSE BY</th>
+            <th>RELEASE</th>
+        </tr>
+        @foreach (var al in Model.Songs)
             {
-                <tr>
-                    <td>@al.Title</td>
-                    <td>@al.Release</td>
-                </tr>
-            }
-        </table>
-    </div>
+            <tr>
+                <td>@al.Title</td>
+                <td>@al.Genres</td>
+                <td>@al.Composers.FullName</td>
+                <td>@Html.DisplayFor(modelItem => Model.Release)</td>
+            </tr>
+        }
+    </table>
+</div>
 
+<div class="form-group">
     <div>
         @using (Html.BeginForm("Edit", "Albums", new { id = Model.AlbumID }, method: FormMethod.Get))
         {
-            <input type="submit" value="Edit" class="btn btn-default" />
-            @Html.ActionLink("Cancel", "Index", "Albums", null, new { @class = "btn btn-default" })
+            if (ViewBag.displayMenu == "Member")
+            {
+                <input type="submit" value="Edit" class="btn btn-default" />
+            }
+            @Html.ActionLink("Back To List", "Index", "Albums", null, new { @class = "btn btn-default" })
         }
     </div>
+</div>
