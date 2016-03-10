@@ -21,7 +21,7 @@ namespace MusicProject.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("MusicContext", throwIfV1Schema: false)
         {
         }
 

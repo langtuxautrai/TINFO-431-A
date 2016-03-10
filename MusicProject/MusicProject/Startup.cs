@@ -27,7 +27,7 @@ namespace MusicProject
             if (!roleManager.RoleExists("Admin"))
             {
 
-                // first we create Admin rool
+                // first we create Admin role
                 var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
                 role.Name = "Admin";
                 roleManager.Create(role);
