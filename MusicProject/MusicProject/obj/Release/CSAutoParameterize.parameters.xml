@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="MusicContext-Web.config Connection String" description="MusicContext Connection String used in web.config by the application to access the database." defaultValue="Data Source=tcp:musiccontext.database.windows.net,1433;Initial Catalog=MusicContext;User ID=navy@musiccontext;Password=L30n9uy3n;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Navy\\Desktop\\Database\\MusicProject\\MusicProject\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='MusicContext']/@connectionString" />
+  </parameter>
+</parameters>

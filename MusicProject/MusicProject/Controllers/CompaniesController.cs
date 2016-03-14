@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace MusicProject.Controllers
 {
+   
     public class CompaniesController : Controller
     {
         private MusicContext db = new MusicContext();
@@ -33,10 +34,6 @@ namespace MusicProject.Controllers
                 if (s[0].ToString() == "Admin")
                 {
                     return true;
-                }
-                else
-                {
-                    return false;
                 }
             }
             return false;
@@ -65,11 +62,11 @@ namespace MusicProject.Controllers
                 var user = User.Identity;
                 ViewBag.Name = user.Name;
 
-                ViewBag.displayMenu = "No";
+                ViewBag.displayMenu = "Member";
 
                 if (isAdminUser())
                 {
-                    ViewBag.displayMenu = "Yes";
+                    ViewBag.displayMenu = "Admin";
                 }
             }
 
@@ -77,8 +74,9 @@ namespace MusicProject.Controllers
             ViewBag.TitleSorting = String.IsNullOrEmpty(name) ? "Name_DESC" : "";
             ViewBag.AddressSorting = name == "Address" ? "Address_DESC" : "Address";
             ViewBag.PhoneSorting = name == "Phone" ? "Phone_DESC" : "Phone";
-            ViewBag.WebsiteSorting = name == "Website" ? "Website_DESC" : "Website";            
+            ViewBag.WebsiteSorting = name == "Website" ? "Website_DESC" : "Website";
             ViewBag.DateSorting = name == "Date" ? "Date_DESC" : "Date";
+            ViewBag.CreateSorting = name == "Create" ? "Create_DESC" : "Create";
 
             if (searchString == null)
             {
@@ -124,6 +122,12 @@ namespace MusicProject.Controllers
                 case "Date_DESC":
                     company = company.OrderByDescending(s => s.Found);
                     break;
+                case "Create":
+                    company = company.OrderBy(s => s.CreateOrUpdate);
+                    break;
+                case "Create_DESC":
+                    company = company.OrderByDescending(s => s.CreateOrUpdate);
+                    break;
                 default:
                     company = company.OrderBy(s => s.Name);
                     break;
@@ -139,12 +143,31 @@ namespace MusicProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            if (User.Identity.IsAuthenticated)
+            {
+                ViewBag.displayMenu = "Member";
+            }
             Company company = db.Companies.Find(id);
             if (company == null)
             {
                 return HttpNotFound();
             }
-            return View(company);
+            getImage(company);
+
+            var companyModel = db.Companies.Include(s => s.Albums).Include(s => s.Artists).Include(s => s.Composers).Single(g => g.CompanyID == id);
+
+            return View(companyModel);
+        }
+
+        public void getImage(Company company)
+        {
+            if (company.Image != null)
+            {
+                byte[] imageByteData = company.Image;
+                string imageBase64Data = Convert.ToBase64String(imageByteData);
+                string imageDataURL = string.Format("data:image/png;base64,{0}", imageBase64Data);
+                ViewBag.ImageData = imageDataURL;
+            }
         }
 
         // GET: Companies/Create
@@ -158,10 +181,20 @@ namespace MusicProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CompanyID,Name,Address,phone,Website,Found")] Company company)
+        public ActionResult Create([Bind(Include = "CompanyID,Name,Address,phone,Website,Found")] Company company, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
+                if (upload != null && upload.ContentLength > 0)
+                {
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    {
+                        company.Image = reader.ReadBytes(upload.ContentLength);
+                        company.ImageName = upload.FileName;
+                    }
+                }
+                company.CreateOrUpdate = System.DateTime.Now;
+
                 db.Companies.Add(company);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -182,6 +215,7 @@ namespace MusicProject.Controllers
             {
                 return HttpNotFound();
             }
+            getImage(company);
             return View(company);
         }
 
@@ -190,15 +224,23 @@ namespace MusicProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CompanyID,Name,Address,phone,Website,Found")] Company company)
+        public ActionResult Edit(int id, HttpPostedFileBase upload)
         {
-            if (ModelState.IsValid)
+            Company company = db.Companies.FirstOrDefault(i => i.CompanyID == id);
+
+            if (upload != null && upload.ContentLength > 0)
             {
-                db.Entry(company).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                {
+                    company.Image = reader.ReadBytes(upload.ContentLength);
+                    company.ImageName = upload.FileName;
+                }
             }
-            return View(company);
+            company.CreateOrUpdate = System.DateTime.Now;
+            UpdateModel(company);
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new { id = company.CompanyID });
         }
 
         // GET: Companies/Delete/5
@@ -209,10 +251,18 @@ namespace MusicProject.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Company company = db.Companies.Find(id);
+            //var album = from s in db.Albums select s;
+            //album = album.Where(s => s.CompanyID == id);
+            Album album = db.Albums.FirstOrDefault(s => s.CompanyID == id);
+            if (album != null)
+            {
+                ViewBag.Delete = "No";
+            }
             if (company == null)
             {
                 return HttpNotFound();
             }
+            getImage(company);
             return View(company);
         }
 
@@ -221,7 +271,33 @@ namespace MusicProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+
             Company company = db.Companies.Find(id);
+
+            //var album = from s in db.Albums select s;
+            //album = album.Where(s => s.CompanyID == id);
+
+            //if (album != null)
+            //{
+            //    return RedirectToAction("Delete", new { id = company.CompanyID });
+            //}
+
+            //remove CompanyID from Artist table
+            var artists = from a in db.Artists select a;
+            artists = artists.Where(a => a.CompanyID == id);
+            foreach (var a in artists)
+            {
+                a.CompanyID = null;
+            }
+
+            //remove CompanyID from Composer table
+            var comp = from a in db.Composers select a;
+            comp = comp.Where(a => a.CompanyID == id);
+            foreach (var a in comp)
+            {
+                a.CompanyID = null;
+            }
+
             db.Companies.Remove(company);
             db.SaveChanges();
             return RedirectToAction("Index");

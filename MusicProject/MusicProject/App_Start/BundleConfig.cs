@@ -24,8 +24,12 @@ namespace MusicProject
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/Cyborg.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/externalscripts").Include(
+                "~/Scripts/ckeditor/ckeditor.js",
+                "~/Scripts/ckeditor/adapters/jquery.js"));
         }
     }
 }

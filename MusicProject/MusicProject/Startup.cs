@@ -27,7 +27,7 @@ namespace MusicProject
             if (!roleManager.RoleExists("Admin"))
             {
 
-                // first we create Admin role
+                // first we create Admin rool
                 var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
                 role.Name = "Admin";
                 roleManager.Create(role);
@@ -38,7 +38,7 @@ namespace MusicProject
                 user.UserName = "mark";
                 user.Email = "markditianquin@gmail.com";
 
-                string userPWD = "A@Z200711";
+                string userPWD = "Qwer1!";
 
                 var chkUser = UserManager.Create(user, userPWD);
 
@@ -50,23 +50,14 @@ namespace MusicProject
                 }
             }
 
-            // creating Creating Manager role 
-            if (!roleManager.RoleExists("Manager"))
+            // creating Member role 
+            if (!roleManager.RoleExists("Member"))
             {
                 var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
-                role.Name = "Manager";
+                role.Name = "Member";
                 roleManager.Create(role);
 
-            }
-
-            // creating Creating Employee role 
-            if (!roleManager.RoleExists("Employee"))
-            {
-                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
-                role.Name = "Employee";
-                roleManager.Create(role);
-
-            }
+            }            
         }
     }
 }

@@ -17,7 +17,7 @@ namespace MusicProject.Migrations
 
         protected override void Seed(MusicProject.Models.MusicContext context)
         {
-           
+                      
         }
     }
 }

@@ -36,7 +36,7 @@ namespace MusicProject.Models
         public virtual Album Albums { get; set; }   //Navigation
 
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy}", ApplyFormatInEditMode = true)]        
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]        
         public DateTime? Release { get; set; }
 
         [Display(Name = "Peak position")]
@@ -48,6 +48,7 @@ namespace MusicProject.Models
         public string YoutubeLink { get; set; }
 
         [AllowHtml]
+        [DataType(DataType.MultilineText)]
         public string Lyric { get; set; }
         
         [Display(Name = "Created or Updated On")]        

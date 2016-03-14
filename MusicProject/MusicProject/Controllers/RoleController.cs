@@ -31,12 +31,12 @@ namespace MusicProject.Controllers
 
                 if (!isAdminUser())
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Songs");
                 }
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Songs");
             }
 
             var Roles = context.Roles.ToList();
@@ -55,10 +55,7 @@ namespace MusicProject.Controllers
                 {
                     return true;
                 }
-                else
-                {
-                    return false;
-                }
+                
             }
             return false;
         }
@@ -75,12 +72,12 @@ namespace MusicProject.Controllers
 
                 if (!isAdminUser())
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Songs");
                 }
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Songs");
             }
 
             var Role = new IdentityRole();
@@ -99,12 +96,12 @@ namespace MusicProject.Controllers
             {
                 if (!isAdminUser())
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Songs");
                 }
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Songs");
             }
 
             context.Roles.Add(Role);

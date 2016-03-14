@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace MusicProject.Controllers
 {
+    
     public class SongsController : Controller
     {
         private MusicContext db = new MusicContext();
@@ -33,7 +34,7 @@ namespace MusicProject.Controllers
                 if (s[0].ToString() == "Admin")
                 {
                     return true;
-                }                
+                }
             }
             return false;
         }
@@ -59,7 +60,7 @@ namespace MusicProject.Controllers
             {
                 var user = User.Identity;
                 ViewBag.Name = user.Name;
-                
+
                 ViewBag.displayMenu = "Member";
 
                 if (isAdminUser())
@@ -67,7 +68,7 @@ namespace MusicProject.Controllers
                     ViewBag.displayMenu = "Admin";
                 }
             }
-            
+
 
             //Set up sorting cases 
             ViewBag.CurrentSort = sortOrder;
@@ -77,12 +78,13 @@ namespace MusicProject.Controllers
             ViewBag.ComposerSorting = sortOrder == "Composer" ? "Composer_DESC" : "Composer";
             ViewBag.AlbumSorting = sortOrder == "Album" ? "Album_DESC" : "Album";
             ViewBag.DateSorting = sortOrder == "Date" ? "Date_DESC" : "Date";
+            ViewBag.CreateSorting = sortOrder == "Create" ? "Create_DESC" : "Create";
 
-            if(searchString == null)
+            if (searchString == null)
             {
                 searchString = currentFilter;
             }
-            
+
             ViewBag.CurrentFilter = searchString;
 
             var songs = from s in db.Songs select s;
@@ -129,6 +131,12 @@ namespace MusicProject.Controllers
                 case "Date_DESC":
                     songs = songs.OrderByDescending(s => s.Release);
                     break;
+                case "Create":
+                    songs = songs.OrderBy(s => s.CreateOrUpdate);
+                    break;
+                case "Create_DESC":
+                    songs = songs.OrderByDescending(s => s.CreateOrUpdate);
+                    break;
                 default:
                     songs = songs.OrderBy(s => s.Title);
                     break;
@@ -146,8 +154,8 @@ namespace MusicProject.Controllers
             }
 
             if (User.Identity.IsAuthenticated)
-            {                
-                ViewBag.displayMenu = "Member";                
+            {
+                ViewBag.displayMenu = "Member";
             }
 
             Song song = db.Songs.Find(id);
@@ -155,7 +163,7 @@ namespace MusicProject.Controllers
             {
                 return HttpNotFound();
             }
-            
+
             return View(song);
         }
 
@@ -178,6 +186,7 @@ namespace MusicProject.Controllers
         {
             Song title = db.Songs.SingleOrDefault(t => t.Title == song.Title);
 
+            //check the song title is existed or not
             if (title == null)
             {
                 if (ModelState.IsValid)
@@ -185,17 +194,18 @@ namespace MusicProject.Controllers
                     song.CreateOrUpdate = System.DateTime.Now;
 
                     if (!string.IsNullOrEmpty(song.YoutubeLink))
-                    {                    
-                        string t = "https://www.youtube.com/embed/" + song.YoutubeLink.Substring(32).Split('&')[0];
+                    {
+                        string l = "https://www.youtube.com/embed/" + song.YoutubeLink.Substring(32).Split('&')[0];
                         // https ://ww w.you tube. com/w atch? v=
-                        song.YoutubeLink = t;
+                        song.YoutubeLink = l;
                     }
-                
+
                     db.Songs.Add(song);
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
             }
+
             ViewBag.AlbumID = new SelectList(db.Albums, "AlbumID", "Title", song.AlbumID);
             ViewBag.ArtistID = new SelectList(db.Artists, "ArtistID", "FullName", song.ArtistID);
             ViewBag.ComposerID = new SelectList(db.Composers, "ComposerID", "FullName", song.ComposerID);
@@ -212,7 +222,9 @@ namespace MusicProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Song song = db.Songs.Find(id);
+
             if (song == null)
             {
                 return HttpNotFound();
@@ -236,18 +248,19 @@ namespace MusicProject.Controllers
 
                 if (!string.IsNullOrEmpty(song.YoutubeLink))
                 {
-                    string t = "https://www.youtube.com/embed/" + song.YoutubeLink.Substring(32).Split('&')[0];
+                    string link = "https://www.youtube.com/embed/" + song.YoutubeLink.Substring(32).Split('&')[0];
                     // https ://ww w.you tube. com/w atch? v=
-                    song.YoutubeLink = t;
+                    song.YoutubeLink = link;
                 }
-
+                
                 song.CreateOrUpdate = System.DateTime.Now;
                 db.SaveChanges();
-                return RedirectToAction("Index");                
+                return RedirectToAction("Index");
             }
             ViewBag.AlbumID = new SelectList(db.Albums, "AlbumID", "Title", song.AlbumID);
             ViewBag.ArtistID = new SelectList(db.Artists, "ArtistID", "FullName", song.ArtistID);
             ViewBag.ComposerID = new SelectList(db.Composers, "ComposerID", "FullName", song.ComposerID);
+
             return View(song);
         }
 
@@ -266,6 +279,7 @@ namespace MusicProject.Controllers
             {
                 return Content("Invalid");
             }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
