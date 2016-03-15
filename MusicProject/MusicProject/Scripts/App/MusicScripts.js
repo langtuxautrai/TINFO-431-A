@@ -1,5 +1,4 @@
 ﻿
-
 $(function () {
 
     $("[data-autocomplete-source]").each(function () {

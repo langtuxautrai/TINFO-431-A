@@ -9,7 +9,7 @@
     <div class="col-md-4">
         @using (Html.BeginForm("Index", "Songs", FormMethod.Get))
         {
-            <p>
+            <p class="search-section">
                 Search: <input type="text" name="searchString" object="ViewBag.CurrentFilter as string" data-autocomplete-source="@Url.Action("QuickSearch", "Songs")" />
                 <input type="submit" value="Search" class="btn btn-default btn-sm" />
             </p>

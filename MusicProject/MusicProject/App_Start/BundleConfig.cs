@@ -25,7 +25,8 @@ namespace MusicProject
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/Cyborg.css",
-                      "~/Content/Site.css"));
+                      "~/Content/Site.css",
+                      "~/Content/all.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/externalscripts").Include(
                 "~/Scripts/ckeditor/ckeditor.js",
