@@ -40,7 +40,7 @@
             @if (ViewBag.displayMenu == "Admin")
             {
                 <th>
-                    @Html.ActionLink("CREATED/MODIFIED", "Index", new { sortOrder = ViewBag.CreateSorting, currentFilter = ViewBag.CurrentFilter })
+                    @Html.ActionLink("CREATED/MODIFIED", "Index", new { name = ViewBag.CreateSorting, currentFilter = ViewBag.CurrentFilter })
                 </th>
                 <th></th>
             }

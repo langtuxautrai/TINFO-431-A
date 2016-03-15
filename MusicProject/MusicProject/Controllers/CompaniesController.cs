@@ -71,7 +71,7 @@ namespace MusicProject.Controllers
             }
 
             //Set up sorting cases 
-            ViewBag.TitleSorting = String.IsNullOrEmpty(name) ? "Name_DESC" : "";
+            ViewBag.NameSorting = String.IsNullOrEmpty(name) ? "Name_DESC" : "";
             ViewBag.AddressSorting = name == "Address" ? "Address_DESC" : "Address";
             ViewBag.PhoneSorting = name == "Phone" ? "Phone_DESC" : "Phone";
             ViewBag.WebsiteSorting = name == "Website" ? "Website_DESC" : "Website";

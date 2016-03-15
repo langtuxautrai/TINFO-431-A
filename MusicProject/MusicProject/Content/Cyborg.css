@@ -1417,11 +1417,13 @@ a.bg-danger:focus {
   margin: 40px 0 20px;
   border-bottom: 1px solid #282828;
 }
+
 ul,
 ol {
   margin-top: 0;
-  margin-bottom: 10px;
+  margin-bottom: 10px;    
 }
+
 ul ul,
 ol ul,
 ul ol,
@@ -1442,6 +1444,7 @@ ol ol {
   padding-left: 5px;
   padding-right: 5px;
 }
+
 dl {
   margin-top: 0;
   margin-bottom: 20px;

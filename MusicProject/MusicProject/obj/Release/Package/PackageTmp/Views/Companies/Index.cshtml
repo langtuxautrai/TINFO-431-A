@@ -26,7 +26,7 @@
     <table class="table table-striped table-hover">
         <tr class="danger">
             <th>
-                @Html.ActionLink("NAME", "Index", new { name = ViewBag.CompanySorting, currentFilter = ViewBag.CurrentFilter })
+                @Html.ActionLink("NAME", "Index", new { name = ViewBag.NameSorting, currentFilter = ViewBag.CurrentFilter })
             </th>
             <th>
                 @Html.ActionLink("ADDRESS", "Index", new { name = ViewBag.AddressSorting, currentFilter = ViewBag.CurrentFilter })
@@ -43,7 +43,7 @@
             @if (ViewBag.displayMenu == "Admin")
             {
                 <th>
-                    @Html.ActionLink("CREATED/MODIFIED", "Index", new { sortOrder = ViewBag.CreateSorting, currentFilter = ViewBag.CurrentFilter })
+                    @Html.ActionLink("CREATED/MODIFIED", "Index", new { name = ViewBag.CreateSorting, currentFilter = ViewBag.CurrentFilter })
                 </th>
                 <th></th>
             }

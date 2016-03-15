@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<MusicProject.Models.Song>
 
 <div id="searchresults">
-    <ul>
+    <ul class="autocomplete">
         @foreach (var item in Model)
         {
             <li>@item.Title</li>
