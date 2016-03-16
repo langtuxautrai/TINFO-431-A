@@ -193,10 +193,10 @@ namespace MusicProject.Controllers
                 {
                     song.CreateOrUpdate = System.DateTime.Now;
 
+                    //convert the youtube input link into the youtube embeded link to embed into webpage
                     if (!string.IsNullOrEmpty(song.YoutubeLink))
                     {
-                        string l = "https://www.youtube.com/embed/" + song.YoutubeLink.Substring(32).Split('&')[0];
-                        // https ://ww w.you tube. com/w atch? v=
+                        string l = "https://www.youtube.com/embed/" + song.YoutubeLink.Substring(32).Split('&')[0];                        
                         song.YoutubeLink = l;
                     }
 
@@ -246,10 +246,10 @@ namespace MusicProject.Controllers
             {
                 db.Entry(song).State = EntityState.Modified;
 
+                //convert the youtube input link into the youtube embeded link to embed into webpage
                 if (!string.IsNullOrEmpty(song.YoutubeLink))
                 {
-                    string link = "https://www.youtube.com/embed/" + song.YoutubeLink.Substring(32).Split('&')[0];
-                    // https ://ww w.you tube. com/w atch? v=
+                    string link = "https://www.youtube.com/embed/" + song.YoutubeLink.Substring(32).Split('&')[0];                    
                     song.YoutubeLink = link;
                 }
                 

@@ -159,6 +159,7 @@ namespace MusicProject.Controllers
             return View(companyModel);
         }
 
+        //Convert the image data in the database into image to display on the page
         public void getImage(Company company)
         {
             if (company.Image != null)

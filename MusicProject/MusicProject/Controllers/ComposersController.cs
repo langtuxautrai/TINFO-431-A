@@ -153,6 +153,7 @@ namespace MusicProject.Controllers
             return View(songList);
         }
 
+        //Convert the image data in the database into image to display on the page
         public void getImage(Composer composer)
         {
             if (composer.Image != null)

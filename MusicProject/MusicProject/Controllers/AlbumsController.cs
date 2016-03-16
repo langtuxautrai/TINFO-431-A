@@ -171,6 +171,7 @@ namespace MusicProject.Controllers
             return View(album);
         }
 
+        //Convert the image data in the database into image to display on the page
         public void getImage(Album album)
         {
             if (album.Image != null)

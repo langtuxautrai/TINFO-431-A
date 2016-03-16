@@ -87,7 +87,8 @@
 <body>
 
     <div id="header">
-        <h1>TINFO 431 - ASP.NET MVC Group Project</h1>
+        <h1>TINFO 431 - Group Project</h1>
+        <p>EZ4Music Website: <a href="http://ez4music.azurewebsites.net/">link</a></p>
         <p>Team Members: Mark Ditianquin, Navy Nguyen</p>
     </div>
 
@@ -104,48 +105,56 @@
             </p>
         </div>
         <div class="section first">
-            <h2>The current scope of our project:</h2>
+            <h2>The description of project:</h2>
             <ul>
                 <li>
                     We decide to make our project is a website like a wiki website for Music. Our current website has 5 categories: Songs, Artists, Albums, Composers, and Companies tabs.
-                    We are currently working on the Songs and Albums pages. We finished some functions on the Songs and Albums tabs such as:
+                    We finished some functions on each tabs such as:
                 </li>
                 <li>
                     <ol>
-                        <li>We have a Search function by title.</li>
+                        <li>We have a Search function with auto-completed.</li>
                         <li>We can sort the table by clicking on the column name.</li>
-                        <li>We can click on the song title, album title, singers, or composer which linked to the detail pages</li>
-                        <li>we replaced the "Create" text by the button</li>
-                        <li>The "delete" function will only appear when we login as admin</li>
+                        <li>We can click on the song title, album title, singer's name, composer's name, or company's name which linked to the detail pages.</li>
+                        <li>we replaced the "Create" link by the "Add New Song" button and this function can see only if you are a member of our website or Administrator account.</li>
+                        <li>Songs details page has embedded with Youtube player. You can play it if that song has Youtube link with it.</li>
+                        <li>"Edit" buttons will appear if you log in as a member.</li>
+                        <li>The "Delete" buttons will only appear when we login as admin. You only delete if it is not bind with it.</li>
+                        <li>In our models, we also use data annotations and validation in order to customize our input and output.</li>
                     </ol>
                 </li>
                 <li>
-                    Right now, we have 2 seperate database files: one for our music data and one for our user data.
-                    For user database, we basically have the same schema as the default user database that is created by the ASP.NET NVC with the added roles.
-                    For music database schema, we have the following:
+                    There are 2 database schemas in our project: One for user database, we basically have the same schema as the default user database that is created by the ASP.NET NVC with the added roles.
+                    One for music database schema, we have the following schema:
                     <ol>
                         <li>Company can have many composers, artists, and albums.</li>
                         <li>Artist and composer can only work for one company or work independence. The artist can have many albums and sing many songs. The composer can compose many songs.</li>
-                        <li>Album can have many songs, and each album can only be label by one company.</li>
+                        <li>Album can have many songs, and each album can only belong to one artist and be label by one company.</li>
                         <li>Song can only compose by one composer and sing by one singer, and it may not in or only in one specific album.</li>
                     </ol>
-                </li>
-                <li>
-                    In our models, we also use data annotations and validation in order to customize our input and output.
-                </li>
+                    However, we merged 2 seperate database schemas into one database as MusicContext and store on the SQL Server of Microsoft Azure.
+                </li>                
             </ul>
         </div>
 
         <div class="section">
-            <h2>For our final project scope:</h2>
+            <h2>Project Deployment</h2>
             <ol>
-                <li>We will combine 2 seperate database files into one file.</li>
+                <li>Database server is used by Microsoft Azure SQL Database Server with conection string: <strong>Server=tcp:musiccontext.database.windows.net,1433;Database=MusicContext;User ID=navy@musiccontext;Password=L30n9uy3n;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;</strong></li>
+                <li>Website app is deployed by Microsoft Azure Website Application.</li>
+                <li>Website link: <a href="http://ez4music.azurewebsites.net/" target="_blank">http://ez4music.azurewebsites.net/</a></li>
                 <li>
-                    We will modify the role of user such that anonymous people can only view and search data; members can view, search, create and edit but can not delete data from website;
-                    and admin user can do everything.
+                    <ul>
+                        <li>Admin user: <strong>mark</strong></li>
+                        <li>Password: <strong>Qwer1!</strong></li>
+                    </ul> 
                 </li>
-                <li>We will modify and set the restriction on the input such as the length of input.</li>
-                <li>We also improve our design or the look and feel of our website by adding bootstrap, Ajax, JQuery and Script</li>
+                <li>
+                    <ul>
+                        <li>Member user: <strong>navy</strong></li>
+                        <li>Password: <strong>Qwer1!</strong></li>
+                    </ul>
+                </li>
             </ol>                
         </div>
     </div>
